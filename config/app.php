@@ -15,6 +15,10 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
 
+    'APIS' => [
+        'RAM_URL' => env('RAM_URL', 'https://rickandmortyapi.com/api'),
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment
