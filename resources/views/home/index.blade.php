@@ -63,7 +63,7 @@
             let paginateLeftBtn = $('#paginate-left');
             let paginateRightBtn = $('#paginate-right');
             let leftPaginatorDisabled = false, rightPaginatorDisabled = false;
-            if (page === null || page <= 0) {
+            if (page === null || page <= 1) {
                 leftPaginatorDisabled = true;
                 paginateLeftBtn.prop('disabled', true);
             } else if (page === totalPages) {
