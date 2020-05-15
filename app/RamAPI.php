@@ -20,7 +20,7 @@ class RamAPI extends API
 
     /**
      * Return characters api response
-     * 
+     *
      * @param  \Illuminate\Http\Request $request
      * @return JSON|boolean
      */
@@ -29,12 +29,14 @@ class RamAPI extends API
          * Data page to return
          * @var string|int $page
          */
-        $page = $request->page ?? 0;
+        $page = !is_null($request->page) && is_numeric($request->page)
+            ? (int) $request->page
+            : 0;
         /**
          * @var string $endpoint
          */
         $endpoint = sprintf('%s/character', $this->url);
-        if ($page) $endpoint .= sprintf("?page=%s", $page);
+        if ($page) $endpoint .= sprintf("/?page=%s", $page);
         $r = $this->http::get($endpoint);
         return $r->ok() ? $r->json() : false;
     }

@@ -24,8 +24,9 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
+        $title = "Home";
         $data = $this->ramAPI->getChars($request);
-        return view('home.index', compact('data'));
+        return view('home.index', compact('title', 'data'));
     }
 
     /**
