@@ -2,12 +2,9 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
-use Validator;
-use App\API;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\Validator;
 
 class RamAPI extends API
 {
@@ -24,7 +21,7 @@ class RamAPI extends API
      * Return a single character api response
      *
      * @param  int $id
-     * @return JSON|boolean
+     * @return string|boolean
      */
     public function getCharacter(int $id) {
         /**
@@ -39,7 +36,7 @@ class RamAPI extends API
      * Return characters api response
      *
      * @param  \Illuminate\Http\Request $request
-     * @return JSON|boolean
+     * @return string|boolean
      */
     public function getChars(Request $request) {
         /**
@@ -63,7 +60,7 @@ class RamAPI extends API
      *
      * @param  string $uriEncodedFilters - Store filter values provided in request
      * @param  \Illuminate\Http\Request $request
-     * @return JSON|boolean
+     * @return string|boolean
      */
     public function search(string $uriEncodedFilters, Request $request) {
         if (!strlen($uriEncodedFilters)) return false;
@@ -146,7 +143,7 @@ class RamAPI extends API
      * Validate search input fields.
      *
      * @param  \illuminate\Http\Request $request
-     * @return Illuminate\Validation\Validator|boolean
+     * @return \Illuminate\Validation\Validator|boolean
      */
     public function validateSearchParams(Request $request) {
         $validator = Validator::make($request->all(), [

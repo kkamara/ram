@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\RamAPI;
 
-class HomeController extends Controller
+class CharacterController extends Controller
 {
     /**
      * @var $ramAPI
@@ -24,9 +24,8 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        $title = "Home";
         $data = $this->ramAPI->getChars($request);
-        return view('home.index', compact('title', 'data'));
+        return response()->json(compact('data'));
     }
 
     /**
@@ -38,9 +37,12 @@ class HomeController extends Controller
     public function read(int $id)
     {
         $data = $this->ramAPI->getCharacter($id);
-        if (!$data) return abort(404, "Oops, something went wrong.");
-        $title = sprintf('%s | Characters', $data['name']);
-        return view('home.read', compact('title', 'data'));
+        if (!$data) {
+            return response()->json([
+               "Message" => "Oops, something went wrong."
+            ], 502);
+        }
+        return response()->json(compact('data'));
     }
 
     /**
@@ -51,25 +53,17 @@ class HomeController extends Controller
      */
     public function search(Request $request)
     {
-        $title = 'Search | Form';
-
-        $input = $request->only(['name', 'status', 'species', 'type', 'gender']);
-
         $inputErrors = $this->ramAPI->validateSearchParams($request);
         if (false !== $inputErrors) {
-            return view('home.search', [
-                'title' => $title,
+            return response()->json([
                 'errors' => $inputErrors,
-                'input' => $input,
-                'data' => [],
-                'filters' => '',
-            ]);
+            ], 422);
         }
 
         $sanitizedInput = $this->ramAPI->getSearchParams($request);
         $filters = $this->ramAPI->uriEncodeArray($sanitizedInput);
         $data = $this->ramAPI->search($filters, $request);
 
-        return view('home.search', compact('title', 'data', 'input', 'filters'));
+        return response()->json(compact('data'));
     }
 }

@@ -13,6 +13,5 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'HomeController@index')->name('home');
-Route::get('/search', 'HomeController@search')->name('search');
-Route::get('/{id}', 'HomeController@read')->name('read');
+Route::view("/{path?}", "layouts.index")->where('path', '.*');
+
