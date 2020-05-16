@@ -17,7 +17,7 @@ class HomeController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Display a listing of characters.
      *
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
@@ -30,68 +30,46 @@ class HomeController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Display single character
      *
+     * @param  int id
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function read(int $id)
     {
-        //
+        $data = $this->ramAPI->getCharacter($id);
+        if (!$data) return abort(404, "Oops, something went wrong.");
+        $title = sprintf('%s | Characters', $data['name']);
+        return view('home.read', compact('title', 'data'));
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Search through characters api
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function search(Request $request)
     {
-        //
-    }
+        $title = 'Search | Form';
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
+        $input = $request->only(['name', 'status', 'species', 'type', 'gender']);
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+        $inputErrors = $this->ramAPI->validateSearchParams($request);
+        if (false !== $inputErrors) {
+            return view('home.search', [
+                'title' => $title,
+                'errors' => $inputErrors,
+                'input' => $input,
+                'data' => [],
+                'filters' => '',
+            ]);
+        }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
+        $sanitizedInput = $this->ramAPI->getSearchParams($request);
+        $filters = $this->ramAPI->uriEncodeArray($sanitizedInput);
+        $data = $this->ramAPI->search($filters, $request);
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        return view('home.search', compact('title', 'data', 'input', 'filters'));
     }
 }
