@@ -15,9 +15,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {
 
-    Route::get('/', 'CharacterController@index')->name('getCharacters');
-    Route::get('/search', 'CharacterController@search')->name('searchCharacters');
-    Route::get('/{id}', 'CharacterController@read')->name('readCharacter');
+    Route::get('/characters', 'CharacterController@index')->name('getCharacters');
+    Route::get('/characters/search', 'CharacterController@search')->name('searchCharacters');
+    Route::get('/characters/{id}', 'CharacterController@read')->name('readCharacter');
 
 });
 

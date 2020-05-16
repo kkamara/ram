@@ -2,9 +2,9 @@
 
 namespace App;
 
-use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
-use Illuminate\Validation\Validator;
+use Illuminate\Http\Request;
+use Validator;
 
 class RamAPI extends API
 {
@@ -143,7 +143,7 @@ class RamAPI extends API
      * Validate search input fields.
      *
      * @param  \illuminate\Http\Request $request
-     * @return \Illuminate\Validation\Validator|boolean
+     * @return Validator|boolean
      */
     public function validateSearchParams(Request $request) {
         $validator = Validator::make($request->all(), [
