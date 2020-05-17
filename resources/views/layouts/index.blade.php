@@ -24,7 +24,7 @@
     <link rel="stylesheet" href="{{ asset("css/app.css") }}" />
     <link rel="stylesheet" href="{{ asset('css/custom.css') }}"/>
     <link rel="stylesheet" href="{{ asset('css/fontawesome.min.css') }}"/>
-    <title>React App</title>
+    <title>{{ config("app.name") }}</title>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
