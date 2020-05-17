@@ -38670,7 +38670,7 @@ var Character = function Character(_ref) {
       alt: ""
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, showShortData ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
       className: "character-title",
-      href: "/".concat(id)
+      href: "/characters/".concat(id)
     }, "Name: ", name) : "Name: ".concat(name)))];
 
     if (!showShortData) {
@@ -39360,7 +39360,7 @@ var Root = function Root() {
     exact: true,
     component: _components_Characters_HomePage__WEBPACK_IMPORTED_MODULE_9__["default"]
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_0__["Route"], {
-    path: "/:id",
+    path: "/characters/:id",
     exact: true,
     component: _components_Character_CharacterPage__WEBPACK_IMPORTED_MODULE_8__["default"]
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_0__["Route"], {

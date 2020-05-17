@@ -29,7 +29,7 @@ const Character = ({ character, showShortData }) => {
                 <img className='img-responsive' src={image} alt=""/>
                 <p>
                     {showShortData ?
-                        <a className='character-title' href={`/${id}`}>Name: {name}</a> :
+                        <a className='character-title' href={`/characters/${id}`}>Name: {name}</a> :
                         `Name: ${name}`}
                 </p>
             </>

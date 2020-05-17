@@ -27,7 +27,7 @@ const Root = () => (
             <Fragment>
                 <Switch>
                     <Route path="/" exact component={HomePage} />
-                    <Route path="/:id" exact component={CharacterPage} />
+                    <Route path="/characters/:id" exact component={CharacterPage} />
                     <Route path="/404" exact component={Page404} />
                     <Redirect to="/404" />
                 </Switch>
