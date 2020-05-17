@@ -10,6 +10,7 @@ import Loader from "../Loader";
 
 class HomePage extends Component {
     componentDidMount() {
+		console.log('this.props.characters',this.props.characters);
 		const page = getURLParameter('page') ? Number.parseInt(getURLParameter('page')) : 1;
         this.loadCharacters(page);
     }

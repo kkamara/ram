@@ -1,20 +1,21 @@
-import { charactersActions } from "./types";
+import { searchCharactersActions } from "./types";
 
 const initialState = {
     data: false
 };
-const charactersReducer = (state = initialState, action) => {
+const searchCharactersReducer = (state = initialState, action) => {
     switch (action.type) {
-        case charactersActions.GET_CHARACTERS_PENDING:
+        case searchCharactersActions.SEARCH_CHARACTERS_PENDING:
             return { ...state, fetched: false, isLoaded: false };
-        case charactersActions.GET_CHARACTERS_ERROR:
+        case searchCharactersActions.SEARCH_CHARACTERS_ERROR:
             return {
                 ...state,
                 fetched: false,
                 isLoaded: true,
                 error: action.payload
             };
-        case charactersActions.GET_CHARACTERS_SUCCESS:
+        case searchCharactersActions.SEARCH_CHARACTERS_SUCCESS:
+            console.log("action.payload",action.payload);
             return {
                 ...state,
                 fetched: true,
@@ -26,4 +27,4 @@ const charactersReducer = (state = initialState, action) => {
     return state;
 };
 
-export default charactersReducer;
+export default searchCharactersReducer;

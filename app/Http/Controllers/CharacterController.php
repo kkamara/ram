@@ -56,7 +56,7 @@ class CharacterController extends Controller
         $inputErrors = $this->ramAPI->validateSearchParams($request);
         if (false !== $inputErrors) {
             return response()->json([
-                'errors' => $inputErrors,
+                'errors' => $inputErrors->errors()->all(),
             ], 422);
         }
 
