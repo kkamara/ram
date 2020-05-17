@@ -5,15 +5,20 @@ import ReactDOM from "react-dom";
 import logger from "redux-logger";
 import { applyMiddleware, createStore, combineReducers } from "redux";
 import thunk from "redux-thunk";
-import promise from "redux-promise-middleware";
+// import promise from "redux-promise-middleware";
 import { Provider } from "react-redux";
 import reducers from "./redux/reducers/index";
 
-import Homepage from "./components/Characters/Homepage";
+import CharacterPage from "./components/Character/CharacterPage";
+import HomePage from "./components/Characters/HomePage";
 import Page404 from "./components/Page404";
 import Footer from "./components/Footer";
 
-const middleware = applyMiddleware(/*promise,*/ thunk, logger);
+const middleware = applyMiddleware(
+    // promise,
+    thunk,
+    logger,
+);
 const store = createStore(reducers, middleware);
 
 const Root = () => (
@@ -21,7 +26,8 @@ const Root = () => (
         <BrowserRouter>
             <Fragment>
                 <Switch>
-                    <Route path="/" exact component={Homepage} />
+                    <Route path="/" exact component={HomePage} />
+                    <Route path="/:id" exact component={CharacterPage} />
                     <Route path="/404" exact component={Page404} />
                     <Redirect to="/404" />
                 </Switch>

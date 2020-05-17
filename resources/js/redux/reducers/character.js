@@ -19,7 +19,7 @@ const characterReducer = (state = initialState, action) => {
                 ...state,
                 fetched: true,
                 isLoaded: true,
-                character: action.payload
+                data: action.payload
             };
     }
 

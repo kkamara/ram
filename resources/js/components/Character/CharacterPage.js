@@ -1,47 +1,29 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { charactersActions } from "../../redux/actions/index";
+import { characterActions } from "../../redux/actions/index";
 import SimplePagination from "../Pagination/SimplePagination";
-import Character from '../Character';
+import Character from './Character';
 
 import Loader from "../Loader";
 
-class Homepage extends Component {
+class CharacterPage extends Component {
     componentDidMount() {
-        this.loadCharacters();
+        this.loadCharacter();
     }
 
-    loadCharacters() {
-        this.props.getCharacters();
+    loadCharacter() {
+		const { id } = this.props.match.params;
+        this.props.getCharacter(id);
 	}
 
-	__renderCharacters() {
-		const { data } = this.props.characters;
-
-		if (
-			!data ||
-			!(
-				(typeof data === 'object' && data !== null) &&
-				data.results !== undefined
-			) ||
-			!data.results.length
-		) {
-			return <p>No results to display your query.</p>;
-		}
-
-		return data.results.map((character, key) =>
-			<Character
-				key={key}
-				character={character}
-				showShortData
-			/>
-		);
+	__renderCharacter() {
+		const { data } = this.props.character;
+		return <Character character={data} />;
 	}
 
     render() {
-		const { data, fetched, isLoaded } = this.props.characters;
-		console.log('data',data)
+		const { data, fetched, isLoaded } = this.props.character;
 
         if (fetched && isLoaded) {
         	return <div className="container">
@@ -49,7 +31,7 @@ class Homepage extends Component {
 		            <div className="card">
 		                <div className="card-header">
 		                    <div className="card-title">
-		                        Home
+								{data.name} | Characters
 		                        <div className="float-right">
 		                            <a href="/search" className="btn btn-default btn-sm">Form Search</a>
 		                        </div>
@@ -57,11 +39,13 @@ class Homepage extends Component {
 		                </div>
 		                <div className="card-body">
 		                    <div className="card-text">
-		                        {this.__renderCharacters()}
+		                        {this.__renderCharacter()}
 		                    </div>
 		                </div>
 		                <div className="card-footer">
-		                    <SimplePagination data={data} />
+							<a href="/" className="btn btn-default">
+								<i className="fas fa-backspace"></i>
+							</a>
 		                </div>
 		            </div>
 		        </div>
@@ -75,10 +59,10 @@ class Homepage extends Component {
 }
 
 const mapStateToProps = state => ({
-    characters: state.characters
+    character: state.character
 });
 const mapDispatchToProps = dispatch => ({
-    getCharacters: () => dispatch(charactersActions.getCharacters()),
+    getCharacter: id => dispatch(characterActions.getCharacter(id)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Homepage);
+export default connect(mapStateToProps, mapDispatchToProps)(CharacterPage);

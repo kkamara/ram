@@ -26,7 +26,6 @@ class Page404 extends React.Component {
                 return res.data.image_original_url;
             })
             .catch(err => {
-                console.log("giphy image request", err);
                 return false;
             });
 

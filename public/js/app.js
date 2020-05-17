@@ -3652,201 +3652,6 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 
 /***/ }),
 
-/***/ "./node_modules/process/browser.js":
-/*!*****************************************!*\
-  !*** ./node_modules/process/browser.js ***!
-  \*****************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-// shim for using process in browser
-var process = module.exports = {};
-
-// cached from whatever global is present so that test runners that stub it
-// don't break things.  But we need to wrap it in a try catch in case it is
-// wrapped in strict mode code which doesn't define any globals.  It's inside a
-// function because try/catches deoptimize in certain engines.
-
-var cachedSetTimeout;
-var cachedClearTimeout;
-
-function defaultSetTimout() {
-    throw new Error('setTimeout has not been defined');
-}
-function defaultClearTimeout () {
-    throw new Error('clearTimeout has not been defined');
-}
-(function () {
-    try {
-        if (typeof setTimeout === 'function') {
-            cachedSetTimeout = setTimeout;
-        } else {
-            cachedSetTimeout = defaultSetTimout;
-        }
-    } catch (e) {
-        cachedSetTimeout = defaultSetTimout;
-    }
-    try {
-        if (typeof clearTimeout === 'function') {
-            cachedClearTimeout = clearTimeout;
-        } else {
-            cachedClearTimeout = defaultClearTimeout;
-        }
-    } catch (e) {
-        cachedClearTimeout = defaultClearTimeout;
-    }
-} ())
-function runTimeout(fun) {
-    if (cachedSetTimeout === setTimeout) {
-        //normal enviroments in sane situations
-        return setTimeout(fun, 0);
-    }
-    // if setTimeout wasn't available but was latter defined
-    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
-        cachedSetTimeout = setTimeout;
-        return setTimeout(fun, 0);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedSetTimeout(fun, 0);
-    } catch(e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
-            return cachedSetTimeout.call(null, fun, 0);
-        } catch(e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
-            return cachedSetTimeout.call(this, fun, 0);
-        }
-    }
-
-
-}
-function runClearTimeout(marker) {
-    if (cachedClearTimeout === clearTimeout) {
-        //normal enviroments in sane situations
-        return clearTimeout(marker);
-    }
-    // if clearTimeout wasn't available but was latter defined
-    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
-        cachedClearTimeout = clearTimeout;
-        return clearTimeout(marker);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedClearTimeout(marker);
-    } catch (e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
-            return cachedClearTimeout.call(null, marker);
-        } catch (e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
-            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
-            return cachedClearTimeout.call(this, marker);
-        }
-    }
-
-
-
-}
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
-
-function cleanUpNextTick() {
-    if (!draining || !currentQueue) {
-        return;
-    }
-    draining = false;
-    if (currentQueue.length) {
-        queue = currentQueue.concat(queue);
-    } else {
-        queueIndex = -1;
-    }
-    if (queue.length) {
-        drainQueue();
-    }
-}
-
-function drainQueue() {
-    if (draining) {
-        return;
-    }
-    var timeout = runTimeout(cleanUpNextTick);
-    draining = true;
-
-    var len = queue.length;
-    while(len) {
-        currentQueue = queue;
-        queue = [];
-        while (++queueIndex < len) {
-            if (currentQueue) {
-                currentQueue[queueIndex].run();
-            }
-        }
-        queueIndex = -1;
-        len = queue.length;
-    }
-    currentQueue = null;
-    draining = false;
-    runClearTimeout(timeout);
-}
-
-process.nextTick = function (fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-        for (var i = 1; i < arguments.length; i++) {
-            args[i - 1] = arguments[i];
-        }
-    }
-    queue.push(new Item(fun, args));
-    if (queue.length === 1 && !draining) {
-        runTimeout(drainQueue);
-    }
-};
-
-// v8 likes predictible objects
-function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
-}
-Item.prototype.run = function () {
-    this.fun.apply(null, this.array);
-};
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
-process.versions = {};
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-process.prependListener = noop;
-process.prependOnceListener = noop;
-
-process.listeners = function (name) { return [] }
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-};
-
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-process.umask = function() { return 0; };
-
-
-/***/ }),
-
 /***/ "./node_modules/prop-types/checkPropTypes.js":
 /*!***************************************************!*\
   !*** ./node_modules/prop-types/checkPropTypes.js ***!
@@ -35751,261 +35556,6 @@ exports.default = _default;
 
 /***/ }),
 
-/***/ "./node_modules/redux-promise-middleware/dist/es/index.js":
-/*!****************************************************************!*\
-  !*** ./node_modules/redux-promise-middleware/dist/es/index.js ***!
-  \****************************************************************/
-/*! exports provided: ActionType, createPromise, default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* WEBPACK VAR INJECTION */(function(process) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ActionType", function() { return ActionType; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createPromise", function() { return createPromise; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return middleware; });
-/* harmony import */ var _isPromise_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./isPromise.js */ "./node_modules/redux-promise-middleware/dist/es/isPromise.js");
-var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-
-
-/**
- * For TypeScript support: Remember to check and make sure
- * that `index.d.ts` is also up to date with the implementation.
- */
-var ActionType = {
-  Pending: 'PENDING',
-  Fulfilled: 'FULFILLED',
-  Rejected: 'REJECTED'
-};
-
-/**
- * Function: createPromise
- * Description: The main createPromise accepts a configuration
- * object and returns the middleware.
- */
-function createPromise() {
-  var config = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-  var defaultTypes = [ActionType.Pending, ActionType.Fulfilled, ActionType.Rejected];
-  var PROMISE_TYPE_SUFFIXES = config.promiseTypeSuffixes || defaultTypes;
-  var PROMISE_TYPE_DELIMITER = config.promiseTypeDelimiter || '_';
-
-  return function (ref) {
-    var dispatch = ref.dispatch;
-
-
-    return function (next) {
-      return function (action) {
-
-        /**
-         * Instantiate variables to hold:
-         * (1) the promise
-         * (2) the data for optimistic updates
-         */
-        var promise = void 0;
-        var data = void 0;
-
-        /**
-         * There are multiple ways to dispatch a promise. The first step is to
-         * determine if the promise is defined:
-         * (a) explicitly (action.payload.promise is the promise)
-         * (b) implicitly (action.payload is the promise)
-         * (c) as an async function (returns a promise when called)
-         *
-         * If the promise is not defined in one of these three ways, we don't do
-         * anything and move on to the next middleware in the middleware chain.
-         */
-
-        // Step 1a: Is there a payload?
-        if (action.payload) {
-          var PAYLOAD = action.payload;
-
-          // Step 1.1: Is the promise implicitly defined?
-          if (Object(_isPromise_js__WEBPACK_IMPORTED_MODULE_0__["default"])(PAYLOAD)) {
-            promise = PAYLOAD;
-          }
-
-          // Step 1.2: Is the promise explicitly defined?
-          else if (Object(_isPromise_js__WEBPACK_IMPORTED_MODULE_0__["default"])(PAYLOAD.promise)) {
-              promise = PAYLOAD.promise;
-              data = PAYLOAD.data;
-            }
-
-            // Step 1.3: Is the promise returned by an async function?
-            else if (typeof PAYLOAD === 'function' || typeof PAYLOAD.promise === 'function') {
-                promise = PAYLOAD.promise ? PAYLOAD.promise() : PAYLOAD();
-                data = PAYLOAD.promise ? PAYLOAD.data : undefined;
-
-                // Step 1.3.1: Is the return of action.payload a promise?
-                if (!Object(_isPromise_js__WEBPACK_IMPORTED_MODULE_0__["default"])(promise)) {
-
-                  // If not, move on to the next middleware.
-                  return next(_extends({}, action, {
-                    payload: promise
-                  }));
-                }
-              }
-
-              // Step 1.4: If there's no promise, move on to the next middleware.
-              else {
-                  return next(action);
-                }
-
-          // Step 1b: If there's no payload, move on to the next middleware.
-        } else {
-          return next(action);
-        }
-
-        /**
-         * Instantiate and define constants for:
-         * (1) the action type
-         * (2) the action meta
-         */
-        var TYPE = action.type;
-        var META = action.meta;
-
-        /**
-         * Instantiate and define constants for the action type suffixes.
-         * These are appended to the end of the action type.
-         */
-
-        var _PROMISE_TYPE_SUFFIXE = _slicedToArray(PROMISE_TYPE_SUFFIXES, 3),
-            PENDING = _PROMISE_TYPE_SUFFIXE[0],
-            FULFILLED = _PROMISE_TYPE_SUFFIXE[1],
-            REJECTED = _PROMISE_TYPE_SUFFIXE[2];
-
-        /**
-         * Function: getAction
-         * Description: This function constructs and returns a rejected
-         * or fulfilled action object. The action object is based off the Flux
-         * Standard Action (FSA).
-         *
-         * Given an original action with the type FOO:
-         *
-         * The rejected object model will be:
-         * {
-         *   error: true,
-         *   type: 'FOO_REJECTED',
-         *   payload: ...,
-         *   meta: ... (optional)
-         * }
-         *
-         * The fulfilled object model will be:
-         * {
-         *   type: 'FOO_FULFILLED',
-         *   payload: ...,
-         *   meta: ... (optional)
-         * }
-         */
-
-
-        var getAction = function getAction(newPayload, isRejected) {
-          return _extends({
-            // Concatenate the type string property.
-            type: [TYPE, isRejected ? REJECTED : FULFILLED].join(PROMISE_TYPE_DELIMITER)
-
-          }, newPayload === null || typeof newPayload === 'undefined' ? {} : {
-            payload: newPayload
-          }, META !== undefined ? { meta: META } : {}, isRejected ? {
-            error: true
-          } : {});
-        };
-
-        /**
-         * Function: handleReject
-         * Calls: getAction to construct the rejected action
-         * Description: This function dispatches the rejected action and returns
-         * the original Error object. Please note the developer is responsible
-         * for constructing and throwing an Error object. The middleware does not
-         * construct any Errors.
-         */
-        var handleReject = function handleReject(reason) {
-          var rejectedAction = getAction(reason, true);
-          dispatch(rejectedAction);
-
-          throw reason;
-        };
-
-        /**
-         * Function: handleFulfill
-         * Calls: getAction to construct the fullfilled action
-         * Description: This function dispatches the fulfilled action and
-         * returns the success object. The success object should
-         * contain the value and the dispatched action.
-         */
-        var handleFulfill = function handleFulfill() {
-          var value = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-
-          var resolvedAction = getAction(value, false);
-          dispatch(resolvedAction);
-
-          return { value: value, action: resolvedAction };
-        };
-
-        /**
-         * First, dispatch the pending action:
-         * This object describes the pending state of a promise and will include
-         * any data (for optimistic updates) and/or meta from the original action.
-         */
-        next(_extends({
-          // Concatenate the type string.
-          type: [TYPE, PENDING].join(PROMISE_TYPE_DELIMITER)
-
-        }, data !== undefined ? { payload: data } : {}, META !== undefined ? { meta: META } : {}));
-
-        /**
-         * Second, dispatch a rejected or fulfilled action and move on to the
-         * next middleware.
-         */
-        return promise.then(handleFulfill, handleReject);
-      };
-    };
-  };
-}
-
-function middleware() {
-  var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-      dispatch = _ref.dispatch;
-
-  if (typeof dispatch === 'function') {
-    return createPromise()({ dispatch: dispatch });
-  }
-
-  if (process && process.env && "development" !== 'production') {
-    // eslint-disable-next-line no-console
-    console.warn('Redux Promise Middleware: As of version 6.0.0, the middleware library supports both preconfigured and custom configured middleware. To use a custom configuration, use the "createPromise" export and call this function with your configuration property. To use a preconfiguration, use the default export. For more help, check the upgrading guide: https://docs.psb.design/redux-promise-middleware/upgrade-guides/v6\n\nFor custom configuration:\nimport { createPromise } from \'redux-promise-middleware\';\nconst promise = createPromise({ types: { fulfilled: \'success\' } });\napplyMiddleware(promise);\n\nFor preconfiguration:\nimport promise from \'redux-promise-middleware\';\napplyMiddleware(promise);\n    ');
-  }
-
-  return null;
-}
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../process/browser.js */ "./node_modules/process/browser.js")))
-
-/***/ }),
-
-/***/ "./node_modules/redux-promise-middleware/dist/es/isPromise.js":
-/*!********************************************************************!*\
-  !*** ./node_modules/redux-promise-middleware/dist/es/isPromise.js ***!
-  \********************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return isPromise; });
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-function isPromise(value) {
-  if (value !== null && (typeof value === 'undefined' ? 'undefined' : _typeof(value)) === 'object') {
-    return value && typeof value.then === 'function';
-  }
-
-  return false;
-}
-
-/***/ }),
-
 /***/ "./node_modules/redux-thunk/es/index.js":
 /*!**********************************************!*\
   !*** ./node_modules/redux-thunk/es/index.js ***!
@@ -39074,10 +38624,10 @@ __webpack_require__(/*! ./index */ "./resources/js/index.js");
 
 /***/ }),
 
-/***/ "./resources/js/components/Character/index.js":
-/*!****************************************************!*\
-  !*** ./resources/js/components/Character/index.js ***!
-  \****************************************************/
+/***/ "./resources/js/components/Character/Character.js":
+/*!********************************************************!*\
+  !*** ./resources/js/components/Character/Character.js ***!
+  \********************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -39093,10 +38643,12 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
 var renderEpisodes = function renderEpisodes(episodes) {
   if (!episodes.length) return 'N/A';
-  return episode.map(function (ep, i) {
-    result = ep.slice(1 + ep.lastIndexOf('/'));
-    if (i !== episode.length - 1) result += ', ';
-    return result;
+  return episodes.map(function (ep, key) {
+    var result = ep.slice(1 + ep.lastIndexOf('/'));
+    if (key !== episodes.length - 1) result += ', ';
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], {
+      key: key
+    }, result);
   });
 };
 
@@ -39110,24 +38662,39 @@ var Character = function Character(_ref) {
       species = character.species,
       gender = character.gender,
       episode = character.episode;
-  return showShortData ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-    className: "img-responsive",
-    src: image,
-    alt: ""
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-    className: "character-title",
-    href: "/characters/".concat(id)
-  }, "Name: ", name))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Species: ", species), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Origin: ", _typeof(origin) === 'object' && origin !== null && origin.Name ? origin.name : 'Unknown'), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Gender: ", gender), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Episodes: ", renderEpisodes(episode)));
+
+  var renderCharacter = function renderCharacter() {
+    var result = [/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+      className: "img-responsive",
+      src: image,
+      alt: ""
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, showShortData ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+      className: "character-title",
+      href: "/".concat(id)
+    }, "Name: ", name) : "Name: ".concat(name)))];
+
+    if (!showShortData) {
+      result.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Species: ", species), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Origin: ", _typeof(origin) === 'object' && origin !== null && origin.Name ? origin.name : 'Unknown'), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Gender: ", gender), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Episodes: ", renderEpisodes(episode))));
+    }
+
+    return result.map(function (data, key) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], {
+        key: key
+      }, data);
+    });
+  };
+
+  return renderCharacter();
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(Character));
 
 /***/ }),
 
-/***/ "./resources/js/components/Characters/Homepage.js":
-/*!********************************************************!*\
-  !*** ./resources/js/components/Characters/Homepage.js ***!
-  \********************************************************/
+/***/ "./resources/js/components/Character/CharacterPage.js":
+/*!************************************************************!*\
+  !*** ./resources/js/components/Character/CharacterPage.js ***!
+  \************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -39138,7 +38705,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _redux_actions_index__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../redux/actions/index */ "./resources/js/redux/actions/index.js");
 /* harmony import */ var _Pagination_SimplePagination__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Pagination/SimplePagination */ "./resources/js/components/Pagination/SimplePagination.js");
-/* harmony import */ var _Character__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Character */ "./resources/js/components/Character/index.js");
+/* harmony import */ var _Character__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Character */ "./resources/js/components/Character/Character.js");
 /* harmony import */ var _Loader__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Loader */ "./resources/js/components/Loader.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -39169,18 +38736,158 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
-var Homepage = /*#__PURE__*/function (_Component) {
-  _inherits(Homepage, _Component);
+var CharacterPage = /*#__PURE__*/function (_Component) {
+  _inherits(CharacterPage, _Component);
 
-  var _super = _createSuper(Homepage);
+  var _super = _createSuper(CharacterPage);
 
-  function Homepage() {
-    _classCallCheck(this, Homepage);
+  function CharacterPage() {
+    _classCallCheck(this, CharacterPage);
 
     return _super.apply(this, arguments);
   }
 
-  _createClass(Homepage, [{
+  _createClass(CharacterPage, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.loadCharacter();
+    }
+  }, {
+    key: "loadCharacter",
+    value: function loadCharacter() {
+      var id = this.props.match.params.id;
+      this.props.getCharacter(id);
+    }
+  }, {
+    key: "__renderCharacter",
+    value: function __renderCharacter() {
+      var data = this.props.character.data;
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Character__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        character: data
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this$props$character = this.props.character,
+          data = _this$props$character.data,
+          fetched = _this$props$character.fetched,
+          isLoaded = _this$props$character.isLoaded;
+
+      if (fetched && isLoaded) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "container"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "col-md-4 offset-md-4"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "card"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "card-header"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "card-title"
+        }, data.name, " | Characters", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "float-right"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+          href: "/search",
+          className: "btn btn-default btn-sm"
+        }, "Form Search")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "card-body"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "card-text"
+        }, this.__renderCharacter())), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "card-footer"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+          href: "/",
+          className: "btn btn-default"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+          className: "fas fa-backspace"
+        }))))));
+      } else if (!fetched && isLoaded) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Unknown error encountered");
+      } else {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Loader__WEBPACK_IMPORTED_MODULE_5__["default"], null);
+      }
+    }
+  }]);
+
+  return CharacterPage;
+}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    character: state.character
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    getCharacter: function getCharacter(id) {
+      return dispatch(_redux_actions_index__WEBPACK_IMPORTED_MODULE_2__["characterActions"].getCharacter(id));
+    }
+  };
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(mapStateToProps, mapDispatchToProps)(CharacterPage));
+
+/***/ }),
+
+/***/ "./resources/js/components/Characters/HomePage.js":
+/*!********************************************************!*\
+  !*** ./resources/js/components/Characters/HomePage.js ***!
+  \********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _redux_actions_index__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../redux/actions/index */ "./resources/js/redux/actions/index.js");
+/* harmony import */ var _Pagination_SimplePagination__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Pagination/SimplePagination */ "./resources/js/components/Pagination/SimplePagination.js");
+/* harmony import */ var _Character_Character__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Character/Character */ "./resources/js/components/Character/Character.js");
+/* harmony import */ var _Loader__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Loader */ "./resources/js/components/Loader.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function () { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+
+
+
+
+
+var HomePage = /*#__PURE__*/function (_Component) {
+  _inherits(HomePage, _Component);
+
+  var _super = _createSuper(HomePage);
+
+  function HomePage() {
+    _classCallCheck(this, HomePage);
+
+    return _super.apply(this, arguments);
+  }
+
+  _createClass(HomePage, [{
     key: "componentDidMount",
     value: function componentDidMount() {
       this.loadCharacters();
@@ -39200,7 +38907,7 @@ var Homepage = /*#__PURE__*/function (_Component) {
       }
 
       return data.results.map(function (character, key) {
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Character__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Character_Character__WEBPACK_IMPORTED_MODULE_4__["default"], {
           key: key,
           character: character,
           showShortData: true
@@ -39214,7 +38921,6 @@ var Homepage = /*#__PURE__*/function (_Component) {
           data = _this$props$character.data,
           fetched = _this$props$character.fetched,
           isLoaded = _this$props$character.isLoaded;
-      console.log('data', data);
 
       if (fetched && isLoaded) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -39249,7 +38955,7 @@ var Homepage = /*#__PURE__*/function (_Component) {
     }
   }]);
 
-  return Homepage;
+  return HomePage;
 }(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
 
 var mapStateToProps = function mapStateToProps(state) {
@@ -39266,7 +38972,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   };
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(mapStateToProps, mapDispatchToProps)(Homepage));
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(mapStateToProps, mapDispatchToProps)(HomePage));
 
 /***/ }),
 
@@ -39421,7 +39127,6 @@ var Page404 = /*#__PURE__*/function (_React$Component) {
               }).then(function (res) {
                 return res.data.image_original_url;
               })["catch"](function (err) {
-                console.log("giphy image request", err);
                 return false;
               });
 
@@ -39624,10 +39329,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var redux_logger__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(redux_logger__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 /* harmony import */ var redux_thunk__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! redux-thunk */ "./node_modules/redux-thunk/es/index.js");
-/* harmony import */ var redux_promise_middleware__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! redux-promise-middleware */ "./node_modules/redux-promise-middleware/dist/es/index.js");
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _redux_reducers_index__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./redux/reducers/index */ "./resources/js/redux/reducers/index.js");
-/* harmony import */ var _components_Characters_Homepage__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/Characters/Homepage */ "./resources/js/components/Characters/Homepage.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _redux_reducers_index__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./redux/reducers/index */ "./resources/js/redux/reducers/index.js");
+/* harmony import */ var _components_Character_CharacterPage__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/Character/CharacterPage */ "./resources/js/components/Character/CharacterPage.js");
+/* harmony import */ var _components_Characters_HomePage__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/Characters/HomePage */ "./resources/js/components/Characters/HomePage.js");
 /* harmony import */ var _components_Page404__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/Page404 */ "./resources/js/components/Page404.js");
 /* harmony import */ var _components_Footer__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/Footer */ "./resources/js/components/Footer.js");
 
@@ -39635,6 +39340,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+ // import promise from "redux-promise-middleware";
 
 
 
@@ -39642,10 +39348,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var middleware = Object(redux__WEBPACK_IMPORTED_MODULE_4__["applyMiddleware"])(
-/*promise,*/
+var middleware = Object(redux__WEBPACK_IMPORTED_MODULE_4__["applyMiddleware"])( // promise,
 redux_thunk__WEBPACK_IMPORTED_MODULE_5__["default"], redux_logger__WEBPACK_IMPORTED_MODULE_3___default.a);
-var store = Object(redux__WEBPACK_IMPORTED_MODULE_4__["createStore"])(_redux_reducers_index__WEBPACK_IMPORTED_MODULE_8__["default"], middleware);
+var store = Object(redux__WEBPACK_IMPORTED_MODULE_4__["createStore"])(_redux_reducers_index__WEBPACK_IMPORTED_MODULE_7__["default"], middleware);
 
 var Root = function Root() {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
@@ -39653,7 +39358,11 @@ var Root = function Root() {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_0__["BrowserRouter"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1__["Fragment"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_0__["Switch"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_0__["Route"], {
     path: "/",
     exact: true,
-    component: _components_Characters_Homepage__WEBPACK_IMPORTED_MODULE_9__["default"]
+    component: _components_Characters_HomePage__WEBPACK_IMPORTED_MODULE_9__["default"]
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_0__["Route"], {
+    path: "/:id",
+    exact: true,
+    component: _components_Character_CharacterPage__WEBPACK_IMPORTED_MODULE_8__["default"]
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_0__["Route"], {
     path: "/404",
     exact: true,
@@ -39664,7 +39373,7 @@ var Root = function Root() {
 }; // const RootWithSession = withSession(Root);
 
 
-react_dom__WEBPACK_IMPORTED_MODULE_2___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_redux__WEBPACK_IMPORTED_MODULE_7__["Provider"], {
+react_dom__WEBPACK_IMPORTED_MODULE_2___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_redux__WEBPACK_IMPORTED_MODULE_6__["Provider"], {
   store: store
 }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(Root, null)), document.getElementById("root")); // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
@@ -39728,8 +39437,7 @@ function getCharacter(id) {
               dispatch(request(_reducers_types__WEBPACK_IMPORTED_MODULE_2__["characterActions"].GET_CHARACTER_PENDING));
               url = _constants__WEBPACK_IMPORTED_MODULE_1__["APP_URL"] + "/characters/".concat(id);
               url = encodeURI(url);
-              console.log("querying server for " + url);
-              _context.next = 9;
+              _context.next = 8;
               return fetch(url).then(function (res) {
                 return res.json();
               }).then(function (json) {
@@ -39738,7 +39446,7 @@ function getCharacter(id) {
                 dispatch(error(_reducers_types__WEBPACK_IMPORTED_MODULE_2__["characterActions"].GET_CHARACTER_ERROR, err));
               });
 
-            case 9:
+            case 8:
             case "end":
               return _context.stop();
           }
@@ -39835,8 +39543,7 @@ function searchCharacters() {
               }
 
               url = encodeURI(url);
-              console.log("querying server for " + url);
-              _context.next = 11;
+              _context.next = 10;
               return fetch(url).then(function (res) {
                 return res.json();
               }).then(function (json) {
@@ -39847,7 +39554,7 @@ function searchCharacters() {
                 dispatch(error(_reducers_types__WEBPACK_IMPORTED_MODULE_2__["charactersActions"].SEARCH_CHARACTERS_ERROR, err));
               });
 
-            case 11:
+            case 10:
             case "end":
               return _context.stop();
           }
@@ -39908,8 +39615,7 @@ function getCharacters() {
               }
 
               url = encodeURI(url);
-              console.log("querying server for " + url);
-              _context2.next = 11;
+              _context2.next = 10;
               return fetch(url).then(function (res) {
                 return res.json();
               }).then(function (json) {
@@ -39918,7 +39624,7 @@ function getCharacters() {
                 dispatch(error(_reducers_types__WEBPACK_IMPORTED_MODULE_2__["charactersActions"].GET_CHARACTERS_ERROR, err));
               });
 
-            case 11:
+            case 10:
             case "end":
               return _context2.stop();
           }
@@ -39998,7 +39704,7 @@ var characterReducer = function characterReducer() {
       return _objectSpread(_objectSpread({}, state), {}, {
         fetched: true,
         isLoaded: true,
-        character: action.payload
+        data: action.payload
       });
   }
 

@@ -11,7 +11,6 @@ function getCharacter(id) {
         let url = APP_URL + `/characters/${id}`;
 
         url = encodeURI(url);
-        console.log("querying server for " + url);
         await fetch(url)
             .then(res => res.json())
             .then(json => {

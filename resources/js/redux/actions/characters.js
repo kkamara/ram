@@ -26,7 +26,6 @@ function searchCharacters(pageNumber = null, params = {}) {
             }
         }
         url = encodeURI(url);
-        console.log("querying server for " + url);
         await fetch(url)
             .then(res => res.json())
             .then(json => {
@@ -85,7 +84,6 @@ function getCharacters(pageNumber = null, params = {}) {
             }
         }
         url = encodeURI(url);
-        console.log("querying server for " + url);
         await fetch(url)
             .then(res => res.json())
             .then(json => {
