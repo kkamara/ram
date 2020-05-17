@@ -131,8 +131,8 @@ class SearchCharactersPage extends Component {
 			type,
 			gender,
 		} = this.state;
-		console.log("this.state",this.state)
-        if (fetched && isLoaded) {
+
+		if (fetched && isLoaded) {
         	return (
 				<div className="container">
 					<div className="col-md-4 offset-md-4">

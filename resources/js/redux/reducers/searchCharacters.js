@@ -15,7 +15,6 @@ const searchCharactersReducer = (state = initialState, action) => {
                 error: action.payload
             };
         case searchCharactersActions.SEARCH_CHARACTERS_SUCCESS:
-            console.log("action.payload",action.payload);
             return {
                 ...state,
                 fetched: true,

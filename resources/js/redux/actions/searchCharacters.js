@@ -8,7 +8,6 @@ export default {
 
 function searchCharacters(pageNumber = null, params = {}) {
     return async dispatch => {
-        console.log("params",params);
         dispatch(request(searchCharactersActions.SEARCH_CHARACTERS_PENDING));
         let url = APP_URL + "/characters/search";
 

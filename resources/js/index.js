@@ -18,7 +18,7 @@ import Footer from "./components/Footer";
 const middleware = applyMiddleware(
     // promise,
     thunk,
-    logger,
+    // logger,
 );
 const store = createStore(reducers, middleware);
 
