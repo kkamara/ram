@@ -5,15 +5,17 @@ import { charactersActions } from "../../redux/actions/index";
 import SimplePagination from "../Pagination/SimplePagination";
 import Character from '../Character/Character';
 
+import { getURLParameter } from '../../utilities/methods';
 import Loader from "../Loader";
 
 class HomePage extends Component {
     componentDidMount() {
-        this.loadCharacters();
+		const page = getURLParameter('page') ? Number.parseInt(getURLParameter('page')) : 1;
+        this.loadCharacters(page);
     }
 
-    loadCharacters() {
-        this.props.getCharacters();
+    loadCharacters(page) {
+        this.props.getCharacters(page);
 	}
 
 	__renderCharacters() {
@@ -77,7 +79,7 @@ const mapStateToProps = state => ({
     characters: state.characters
 });
 const mapDispatchToProps = dispatch => ({
-    getCharacters: () => dispatch(charactersActions.getCharacters()),
+    getCharacters: page => dispatch(charactersActions.getCharacters(page)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomePage);
