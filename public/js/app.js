@@ -38892,7 +38892,6 @@ var HomePage = /*#__PURE__*/function (_Component) {
   _createClass(HomePage, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      console.log('this.props.characters', this.props.characters);
       var page = Object(_utilities_methods__WEBPACK_IMPORTED_MODULE_5__["getURLParameter"])('page') ? Number.parseInt(Object(_utilities_methods__WEBPACK_IMPORTED_MODULE_5__["getURLParameter"])('page')) : 1;
       this.loadCharacters(page);
     }
@@ -39516,7 +39515,6 @@ var SearchCharactersPage = /*#__PURE__*/function (_Component) {
           species = _this$state.species,
           type = _this$state.type,
           gender = _this$state.gender;
-      console.log("this.state", this.state);
 
       if (fetched && isLoaded) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -39674,7 +39672,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "APP_URL", function() { return APP_URL; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "APP_NAME", function() { return APP_NAME; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GIPHY_API_KEY", function() { return GIPHY_API_KEY; });
-var APP_URL = "http://ram.test/api/v1";
+var APP_URL = "https://mortynrick.herokuapp.com/api/v1";
 var APP_NAME = "Rick & Morty";
 var GIPHY_API_KEY = "M5Pj4m4sIMVxGzJvOEOHwWbzl5UcOKjE";
 
@@ -39720,7 +39718,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var middleware = Object(redux__WEBPACK_IMPORTED_MODULE_4__["applyMiddleware"])( // promise,
-redux_thunk__WEBPACK_IMPORTED_MODULE_5__["default"], redux_logger__WEBPACK_IMPORTED_MODULE_3___default.a);
+redux_thunk__WEBPACK_IMPORTED_MODULE_5__["default"] // logger,
+);
 var store = Object(redux__WEBPACK_IMPORTED_MODULE_4__["createStore"])(_redux_reducers_index__WEBPACK_IMPORTED_MODULE_7__["default"], middleware);
 
 var Root = function Root() {
@@ -40008,7 +40007,6 @@ function searchCharacters() {
                 };
               };
 
-              console.log("params", params);
               dispatch(request(_reducers_types__WEBPACK_IMPORTED_MODULE_2__["searchCharactersActions"].SEARCH_CHARACTERS_PENDING));
               url = _constants__WEBPACK_IMPORTED_MODULE_1__["APP_URL"] + "/characters/search";
               GETVars = Object(_utilities_methods__WEBPACK_IMPORTED_MODULE_3__["convertArrayToGETParams"])(params);
@@ -40026,7 +40024,7 @@ function searchCharacters() {
               }
 
               url = encodeURI(url);
-              _context.next = 11;
+              _context.next = 10;
               return fetch(url).then(function (res) {
                 return res.json();
               }).then(function (json) {
@@ -40040,7 +40038,7 @@ function searchCharacters() {
                 dispatch(error(_reducers_types__WEBPACK_IMPORTED_MODULE_2__["searchCharactersActions"].SEARCH_CHARACTERS_ERROR, err));
               });
 
-            case 11:
+            case 10:
             case "end":
               return _context.stop();
           }
@@ -40230,7 +40228,6 @@ var searchCharactersReducer = function searchCharactersReducer() {
       });
 
     case _types__WEBPACK_IMPORTED_MODULE_0__["searchCharactersActions"].SEARCH_CHARACTERS_SUCCESS:
-      console.log("action.payload", action.payload);
       return _objectSpread(_objectSpread({}, state), {}, {
         fetched: true,
         isLoaded: true,
