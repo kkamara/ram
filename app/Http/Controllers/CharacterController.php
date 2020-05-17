@@ -64,6 +64,6 @@ class CharacterController extends Controller
         $filters = $this->ramAPI->uriEncodeArray($sanitizedInput);
         $data = $this->ramAPI->search($filters, $request);
 
-        return response()->json(compact('data'));
+        return response()->json(compact('data', 'filters'));
     }
 }

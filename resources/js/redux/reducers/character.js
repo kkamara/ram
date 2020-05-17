@@ -1,7 +1,7 @@
 import { characterActions } from "./types";
 
 const initialState = {
-    data: {}
+    data: false
 };
 const characterReducer = (state = initialState, action) => {
     switch (action.type) {

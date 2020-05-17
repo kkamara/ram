@@ -17,16 +17,18 @@ const middleware = applyMiddleware(/*promise,*/ thunk, logger);
 const store = createStore(reducers, middleware);
 
 const Root = () => (
-    <BrowserRouter>
-        <Fragment>
-            <Switch>
-                <Route path="/" exact component={Homepage} />
-                <Route path="/404" exact component={Page404} />
-                <Redirect to="/404" />
-            </Switch>
-            <Footer />
-        </Fragment>
-    </BrowserRouter>
+    <div id='app'>
+        <BrowserRouter>
+            <Fragment>
+                <Switch>
+                    <Route path="/" exact component={Homepage} />
+                    <Route path="/404" exact component={Page404} />
+                    <Redirect to="/404" />
+                </Switch>
+                <Footer />
+            </Fragment>
+        </BrowserRouter>
+    </div>
 );
 
 // const RootWithSession = withSession(Root);
