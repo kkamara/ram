@@ -31,11 +31,16 @@ class CharacterController extends Controller
     /**
      * Display single character
      *
-     * @param  int id
+     * @param  string id
      * @return \Illuminate\Http\Response
      */
-    public function read(int $id)
+    public function read($id)
     {
+        if (!is_numeric($id)) {
+            return response()->json([
+               "Message" => "ID parameter must be a valid integer."
+            ], 400);
+        }
         $data = $this->ramAPI->getCharacter($id);
         if (!$data) {
             return response()->json([

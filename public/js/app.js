@@ -38707,6 +38707,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Pagination_SimplePagination__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Pagination/SimplePagination */ "./resources/js/components/Pagination/SimplePagination.js");
 /* harmony import */ var _Character__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Character */ "./resources/js/components/Character/Character.js");
 /* harmony import */ var _Loader__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Loader */ "./resources/js/components/Loader.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -38728,6 +38729,7 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 
 
 
@@ -38775,6 +38777,9 @@ var CharacterPage = /*#__PURE__*/function (_Component) {
           isLoaded = _this$props$character.isLoaded;
 
       if (fetched && isLoaded) {
+        if (!data) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_6__["Redirect"], {
+          to: "/404"
+        });
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "container"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -39815,7 +39820,8 @@ function getCharacter(id) {
               return fetch(url).then(function (res) {
                 return res.json();
               }).then(function (json) {
-                dispatch(success(_reducers_types__WEBPACK_IMPORTED_MODULE_2__["characterActions"].GET_CHARACTER_SUCCESS, json.data));
+                var payload = json.data ? json.data : false;
+                dispatch(success(_reducers_types__WEBPACK_IMPORTED_MODULE_2__["characterActions"].GET_CHARACTER_SUCCESS, payload));
               })["catch"](function (err) {
                 dispatch(error(_reducers_types__WEBPACK_IMPORTED_MODULE_2__["characterActions"].GET_CHARACTER_ERROR, err));
               });

@@ -6,6 +6,7 @@ import SimplePagination from "../Pagination/SimplePagination";
 import Character from './Character';
 
 import Loader from "../Loader";
+import { Redirect } from "react-router-dom";
 
 class CharacterPage extends Component {
     componentDidMount() {
@@ -26,6 +27,8 @@ class CharacterPage extends Component {
 		const { data, fetched, isLoaded } = this.props.character;
 
         if (fetched && isLoaded) {
+			if (!data) return <Redirect to="/404" />
+
         	return <div className="container">
 	        	<div className="col-md-4 offset-md-4">
 		            <div className="card">

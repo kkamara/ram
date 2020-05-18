@@ -14,9 +14,8 @@ function getCharacter(id) {
         await fetch(url)
             .then(res => res.json())
             .then(json => {
-                dispatch(
-                    success(characterActions.GET_CHARACTER_SUCCESS, json.data)
-                );
+                const payload = json.data ? json.data : false;
+                dispatch(success(characterActions.GET_CHARACTER_SUCCESS, payload));
             })
             .catch(err => {
                 dispatch(error(characterActions.GET_CHARACTER_ERROR, err));
