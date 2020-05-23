@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import { characterActions } from "../../redux/actions/index";
-import SimplePagination from "../Pagination/SimplePagination";
 import Character from './Character';
 
 import Loader from "../Loader";

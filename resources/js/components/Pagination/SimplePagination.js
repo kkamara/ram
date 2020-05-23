@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { withRouter } from "react-router-dom";
 
 import { getURLParameter } from '../../utilities/methods';
@@ -13,15 +13,11 @@ const SimplePagination = ({ data }) => {
     let paginateLeftBtn = $('#paginate-left');
     let paginateRightBtn = $('#paginate-right');
     let leftPaginatorDisabled = false, rightPaginatorDisabled = false;
-    if((page === null || page <= 1) && page === totalPages) {
-        leftPaginatorDisabled = true;
-        rightPaginatorDisabled = true;
-        paginateLeftBtn.prop('disabled', true);
-        paginateRightBtn.prop('disabled', true);
-    } else if (page === null || page <= 1) {
+    if (page === null || page <= 1) {
         leftPaginatorDisabled = true;
         paginateLeftBtn.prop('disabled', true);
-    } else if (page === totalPages) {
+    }
+    if (page === totalPages) {
         rightPaginatorDisabled = true;
         paginateRightBtn.prop('disabled', true);
     }
