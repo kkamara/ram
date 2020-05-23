@@ -1,4 +1,4 @@
-# kkamara/ram
+# Rick & Morty Characters Encyclopedia
 
 **This project will be based primarily on your ability to fulfill the task
 requirements. Any potential design skills are a bonus, but usability,
