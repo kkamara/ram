@@ -1,14 +1,17 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
+import { Helmet } from "react-helmet";
 
 import { searchCharactersActions } from "../../redux/actions/index";
 import SimplePagination from "../Pagination/SimplePagination";
 import Character from '../Character/Character';
 
 import { getURLParameter } from '../../utilities/methods';
+import { APP_NAME } from "../../constants";
 import Loader from "../Loader";
 
 class SearchCharactersPage extends Component {
+	pageTitle = `Search | Form | ${APP_NAME}`;
 	state = {
 		"name": "",
 		"status": "",
@@ -84,6 +87,12 @@ class SearchCharactersPage extends Component {
 		this.setState({ [name]: value });
 	}
 
+	__renderHeaderTags() {
+		return <Helmet>
+			<title>{this.pageTitle}</title>
+		</Helmet>
+	}
+
 	__renderErrors() {
 		const { data } = this.props.characters;
 
@@ -131,9 +140,10 @@ class SearchCharactersPage extends Component {
 			type,
 			gender,
 		} = this.state;
+		let content = null;
 
 		if (fetched && isLoaded) {
-        	return (
+        	content = (
 				<div className="container">
 					<div className="col-md-4 offset-md-4">
 						{this.__renderErrors()}
@@ -246,10 +256,15 @@ class SearchCharactersPage extends Component {
 				</div>
 			);
         } else if (!fetched && isLoaded) {
-	        return <div>Unknown error encountered</div>;
+	        content = <div>Unknown error encountered</div>;
     	} else{
-    		return <Loader />;
+    		content = <Loader />;
     	}
+
+		return <>
+			{this.__renderHeaderTags()}
+			{content}
+		</>;
     }
 }
 

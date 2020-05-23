@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { Helmet } from "react-helmet";
 
 import { charactersActions } from "../../redux/actions/index";
 import SimplePagination from "../Pagination/SimplePagination";
@@ -7,8 +8,11 @@ import Character from '../Character/Character';
 
 import { getURLParameter } from '../../utilities/methods';
 import Loader from "../Loader";
+import { APP_NAME } from "../../constants";
 
 class HomePage extends Component {
+	pageTitle = `Home | ${APP_NAME}`;
+
     componentDidMount() {
 		const page = getURLParameter('page') ? Number.parseInt(getURLParameter('page')) : 1;
         this.loadCharacters(page);
@@ -16,6 +20,12 @@ class HomePage extends Component {
 
     loadCharacters(page) {
         this.props.getCharacters(page);
+	}
+
+	__renderHeaderTags() {
+		return <Helmet>
+			<title>{this.pageTitle}</title>
+		</Helmet>
 	}
 
 	__renderCharacters() {
@@ -43,35 +53,43 @@ class HomePage extends Component {
 
     render() {
 		const { data, fetched, isLoaded } = this.props.characters;
+		let content = null;
 
         if (fetched && isLoaded) {
-        	return <div className="container">
-	        	<div className="col-md-4 offset-md-4">
-		            <div className="card">
-		                <div className="card-header">
-		                    <div className="card-title">
-		                        Home
-		                        <div className="float-right">
-		                            <a href="/search" className="btn btn-default btn-sm">Form Search</a>
-		                        </div>
-		                    </div>
-		                </div>
-		                <div className="card-body">
-		                    <div className="card-text">
-		                        {this.__renderCharacters()}
-		                    </div>
-		                </div>
-		                <div className="card-footer">
-		                    <SimplePagination data={data} />
-		                </div>
-		            </div>
-		        </div>
-        	</div>;
+        	content = (
+				<div className="container">
+					<div className="col-md-4 offset-md-4">
+						<div className="card">
+							<div className="card-header">
+								<div className="card-title">
+									Home
+									<div className="float-right">
+										<a href="/search" className="btn btn-default btn-sm">Form Search</a>
+									</div>
+								</div>
+							</div>
+							<div className="card-body">
+								<div className="card-text">
+									{this.__renderCharacters()}
+								</div>
+							</div>
+							<div className="card-footer">
+								<SimplePagination data={data} />
+							</div>
+						</div>
+					</div>
+				</div>
+			);
         } else if (!fetched && isLoaded) {
-	        return <div>Unknown error encountered</div>;
-    	} else{
-    		return <Loader />;
-    	}
+	        content = <div>Unknown error encountered</div>;
+    	} else {
+    		content = <Loader />;
+		}
+
+		return <>
+			{this.__renderHeaderTags()}
+			{content}
+		</>;
     }
 }
 

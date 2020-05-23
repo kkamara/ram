@@ -1,16 +1,44 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { Helmet } from "react-helmet";
 
 import { characterActions } from "../../redux/actions/index";
 import Character from './Character';
 
 import Loader from "../Loader";
 import { Redirect } from "react-router-dom";
+import { APP_NAME } from "../../constants";
 
 class CharacterPage extends Component {
+	state = {
+		pageTitle: `Characters | ${APP_NAME}`,
+	}
+
     componentDidMount() {
         this.loadCharacter();
-    }
+	}
+
+	componentDidUpdate() {
+		const { data, fetched, isLoaded } = this.props.character;
+		const { pageTitle } = this.state;
+
+		if (
+			!fetched ||
+			!isLoaded ||
+			pageTitle.match(data.name)
+		) return;
+
+		this.setPageTitleState(`${data.name} | ${pageTitle}`);
+	}
+
+	setPageTitleState = pageTitle => this.setState({ pageTitle });
+
+	__renderHeaderTags() {
+		const { pageTitle } = this.state;
+		return <Helmet>
+			<title>{pageTitle}</title>
+		</Helmet>
+	}
 
     loadCharacter() {
 		const { id } = this.props.match.params;
@@ -24,11 +52,12 @@ class CharacterPage extends Component {
 
     render() {
 		const { data, fetched, isLoaded } = this.props.character;
+		let content = null;
 
         if (fetched && isLoaded) {
 			if (!data) return <Redirect to="/404" />
 
-        	return <div className="container">
+        	content = <div className="container">
 	        	<div className="col-md-4 offset-md-4">
 		            <div className="card">
 		                <div className="card-header">
@@ -53,10 +82,15 @@ class CharacterPage extends Component {
 		        </div>
         	</div>;
         } else if (!fetched && isLoaded) {
-	        return <div>Unknown error encountered</div>;
+	        content = <div>Unknown error encountered</div>;
     	} else{
-    		return <Loader />;
-    	}
+    		content = <Loader />;
+		}
+
+		return <>
+			{this.__renderHeaderTags()}
+			{content}
+		</>;
     }
 }
 
