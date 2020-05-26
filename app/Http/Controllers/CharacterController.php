@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CharacterRequest;
 use Illuminate\Http\Request;
 use App\RamAPI;
 
@@ -53,20 +54,14 @@ class CharacterController extends Controller
     /**
      * Search through characters api
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  App\Http\Requests\CharacterRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function search(Request $request)
+    public function search(CharacterRequest $request)
     {
-        $inputErrors = $this->ramAPI->validateSearchParams($request);
-        if (false !== $inputErrors) {
-            return response()->json([
-                'errors' => $inputErrors->errors()->all(),
-            ], 422);
-        }
-
-        $sanitizedInput = $this->ramAPI->getSearchParams($request);
-        $filters = $this->ramAPI->uriEncodeArray($sanitizedInput);
+        $filters = $this->ramAPI->uriEncodeArray(
+            $request->only(['name', 'status', 'species', 'type', 'gender'])
+        );
         $data = $this->ramAPI->search($filters, $request);
 
         return response()->json(compact('data', 'filters'));
