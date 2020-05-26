@@ -114,26 +114,40 @@ class RamAPI extends API
      * @return array
      */
     public function getSearchParams(Request $request) {
-        $input = $request->only(['name', 'status', 'species', 'type', 'gender']);
+        /**
+         * Store sanitized search query params.
+         * @var array $input
+         */
+        $input = [];
 
-        if (isset($input['name']) && strlen($input['name'])) {
-            $input['name'] = filter_var($input['name'], FILTER_SANITIZE_STRING);
+        if ($request->filled('name')) {
+            $input['name'] = filter_var(
+                $request->input('name'), FILTER_SANITIZE_STRING
+            );
         }
 
-        if (isset($input['status']) && strlen($input['status'])) {
-            $input['status'] = filter_var($input['status'], FILTER_SANITIZE_STRING);
+        if ($request->filled('status')) {
+            $input['status'] = filter_var(
+                $request->input('status'), FILTER_SANITIZE_STRING
+            );
         }
 
-        if (isset($input['species']) && strlen($input['species'])) {
-            $input['species'] = filter_var($input['species'], FILTER_SANITIZE_STRING);
+        if ($request->filled('species')) {
+            $input['species'] = filter_var(
+                $request->input('species'), FILTER_SANITIZE_STRING
+            );
         }
 
-        if (isset($input['type']) && strlen($input['type'])) {
-            $input['type'] = filter_var($input['type'], FILTER_SANITIZE_STRING);
+        if ($request->filled('type')) {
+            $input['type'] = filter_var(
+                $request->input('type'), FILTER_SANITIZE_STRING
+            );
         }
 
-        if (isset($input['gender']) && strlen($input['gender'])) {
-            $input['gender'] = filter_var($input['gender'], FILTER_SANITIZE_STRING);
+        if ($request->filled('gender')) {
+            $input['gender'] = filter_var(
+                $request->input('gender'), FILTER_SANITIZE_STRING
+            );
         }
 
         return $input;
