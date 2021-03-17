@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 const mailgun = require("mailgun-js");
 const express = require("express");
 const csurf = require("csurf");
+const path = require('path');
 const xss = require("xss");
 const app = express();
 
@@ -46,13 +47,13 @@ app.use(
         }
     })
 );
-app.use(express.static("public"));
+app.use(express.static(path.join(process.cwd(), "frontend/build")));
 app.use(cookieParser());
 
 app.get(
     "/", 
     middleware.csrfProtection, 
-    middleware.render("pages/index", { title: "Homepage" })
+    (req, res) => res.sendFile(path.join(process.cwd(), "frontend/build", "index.html"))
 );
 
 if (helpersConfig.nodeEnv === "production") {
