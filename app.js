@@ -1,6 +1,7 @@
 const { helpersConfig } = require("./config");
 
 const cookieParser = require("cookie-parser");
+const sanitize = require('sanitize');
 const express = require("express");
 const csurf = require("csurf");
 const path = require('path');
@@ -23,6 +24,7 @@ app.use(express.static(path.join(process.cwd(), "frontend/build")));
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+app.use(sanitize.middleware);
 
 app.get(
     "/", 
