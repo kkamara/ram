@@ -95,7 +95,7 @@ class RamAPI extends API {
 
     /**
      * Validate search input fields.
-     * @param  {object} - input values for querying R&M characters
+     * @param  object - input values for querying R&M characters
      * @return array|false
      */
     validateSearchParams({ name, status, species, type, gender }) {
