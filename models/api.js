@@ -10,7 +10,8 @@ class API {
 
     /**
      * Base class constructor
-     * @param string $url - Optional url to override default assignment
+     * @param {string=} url - Optional url to override default assignment
+     * @param {any=} http - Optional http to override default assignment
      * @return void
      */
     constructor(url='', http=null) {
