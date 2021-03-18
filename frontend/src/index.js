@@ -15,6 +15,8 @@ import HomePage from "./components/Characters/HomePage";
 import Page404 from "./components/Page404";
 import Footer from "./components/Footer";
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 const middleware = applyMiddleware(
     // promise,
     thunk,
