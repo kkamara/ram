@@ -18,9 +18,9 @@ class RamAPI extends API {
      */
     async getCharacter(id) {
         /**
-         * @var string $endpoint
+         * @var string endpoint
          */
-        $endpoint = sprintf('%s/character/%s', this.url, id);
+        endpoint = `${this.url}/character/${id}`;
         return await this.http.get(endpoint)
             .then(res => res.json())
             .catch(() => false)
@@ -38,7 +38,7 @@ class RamAPI extends API {
             : 1;
 
         /** @var endpoint[string] */
-        endpoint = sprintf('%s/character', this.url);
+        endpoint = `${this.url}/character`;
         if (page) endpoint += `/?page=${page}`;
 
         return await this.http.get(endpoint)
