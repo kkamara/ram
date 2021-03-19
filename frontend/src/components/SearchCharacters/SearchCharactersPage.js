@@ -1,6 +1,8 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { Helmet } from "react-helmet";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBackspace } from '@fortawesome/free-solid-svg-icons';
 
 import { searchCharactersActions } from "../../redux/actions/index";
 import SimplePagination from "../Pagination/SimplePagination";
@@ -225,7 +227,7 @@ class SearchCharactersPage extends Component {
 							</div>
 							<div className="card-footer">
 								<a href="/" className="btn btn-default">
-									<i className="fas fa-backspace"></i>
+									<FontAwesomeIcon icon={faBackspace} />
 								</a>
 								<div className="float-right">
 									<input type='submit' className="btn btn-default" id="search" value='Submit search' />

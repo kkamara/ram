@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Helmet } from "react-helmet";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBackspace } from '@fortawesome/free-solid-svg-icons';
 
 import { characterActions } from "../../redux/actions/index";
 import Character from './Character';
@@ -75,7 +77,7 @@ class CharacterPage extends Component {
 		                </div>
 		                <div className="card-footer">
 							<a href="/" className="btn btn-default">
-								<i className="fas fa-backspace"></i>
+								<FontAwesomeIcon icon={faBackspace} />
 							</a>
 		                </div>
 		            </div>
