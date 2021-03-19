@@ -1,4 +1,5 @@
 const API = require('./api');
+const axios = require('axios').default;
 
 class RamAPI extends API {
     /**
@@ -16,14 +17,10 @@ class RamAPI extends API {
      * @param  {number} id
      * @return string|boolean
      */
-    async getCharacter(id) {
-        /**
-         * @var string endpoint
-         */
-        endpoint = `${this.url}/character/${id}`;
-        return await this.http.get(endpoint)
-            .then(res => res.json())
-            .catch(() => false)
+    getCharacter(id) {
+        /** @var {string} endpoint */
+        const endpoint = `${this.url}/character/${id}`;
+        return axios.get(endpoint);
     }
 
     /**
@@ -31,19 +28,16 @@ class RamAPI extends API {
      * @param  {number=} page (optional)
      * @return string|boolean
      */
-    async getChars(page=null) {
-        /** Data page to return @var page[string|int] */
-        page = null !== page && null !== page.match(/^\d+$/)
-            ? number.parseInt(page)
+    getChars(page=null) {
+        page = null !== page && null !== `${page}`.match(/^\d+$/)
+            ? Number.parseInt(page)
             : 1;
 
-        /** @var endpoint[string] */
-        endpoint = `${this.url}/character`;
+        /** @var {string} endpoint */
+        let endpoint = `${this.url}/character`;
         if (page) endpoint += `/?page=${page}`;
 
-        return await this.http.get(endpoint)
-            .then(res => res.json())
-            .catch(() => false)
+        return axios.get(endpoint);
     }
 
     /**
@@ -53,22 +47,15 @@ class RamAPI extends API {
      * @return string|boolean
      */
     search(uriEncodedFilters, page) {
-        if (!strlen(uriEncodedFilters)) return false;
-        /**
-         * Data page to return
-         * @var string|int $page
-         */
-        page = null !== page && null !== page.match(/^\d+$/)
-            ? number.parseInt(page)
+        if (1 > uriEncodedFilters.length) return new Promise(resolve => resolve(false));
+
+        page = null !== page && null !== `${page}`.match(/^\d+$/)
+            ? Number.parseInt(page)
             : 1;
 
-        /**
-         * @var string $endpoint
-         */
-        $endpoint = `${this.url}/character/?page=${page}&${uriEncodedFilters}`;
-        return await this.http.get(endpoint)
-            .then(res => res.json())
-            .catch(() => false)
+        /** @var {string} endpoint */
+        const endpoint = `${this.url}/character/?page=${page}&${uriEncodedFilters}`;
+        return axios.get(endpoint);
     }
 
     /**
@@ -77,14 +64,20 @@ class RamAPI extends API {
      * @return string
      */
     uriEncodeArray(fields) {
-        /** Default return value @var {string} result */
-        result = '';
-        /** Maintain iteration count for given array @var {int} count */
-        $count = 0;
-        for (let name in fields) {
+        /** 
+         * Default return value 
+         * @var {string} result 
+         */
+        let result = '';
+        /** 
+         * Maintain iteration count for given array 
+         * @var {int} count 
+         */
+        let count = 0;
+        for (const name in fields) {
             const value = fields[name];
             if(null === value) continue;
-            $result += count === 0
+            result += count === 0
                 ? `${name}=${value}`
                 : `&${name}=${value}`;
             ++count;
@@ -99,7 +92,7 @@ class RamAPI extends API {
      * @return array|false
      */
     validateSearchParams({ name, status, species, type, gender }) {
-        result = [];
+        const result = [];
         
         if (name && 255 <= name.length) {
             result["name"] = "The name exceeds 255 character limit.";
@@ -137,4 +130,4 @@ class RamAPI extends API {
     }
 }
 
-module.exports = RamAPI;
+module.exports = new RamAPI();

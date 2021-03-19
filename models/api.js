@@ -1,5 +1,5 @@
 const { helpersConfig } = require("../config");
-const axios = require('axios');
+const axios = require('axios').default;
 
 class API {
     /** API endpoint base url @var url */
