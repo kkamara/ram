@@ -22,7 +22,6 @@ const middleware = {
     }
 };
 
-app.use(express.static(path.join(process.cwd(), "frontend/build")));
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
@@ -92,12 +91,6 @@ router.get('/characters/:id(\\d+)', async (req, res) => {
 });
 
 app.use('/api/v1', router);
-
-app.get(
-    "/", 
-    middleware.csrfProtection, 
-    (req, res) => res.sendFile(path.join(process.cwd(), "frontend/build", "index.html"))
-);
 
 if (helpersConfig.nodeEnv === "production") {
     app.listen(80);
