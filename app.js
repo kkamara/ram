@@ -4,7 +4,6 @@ const cookieParser = require("cookie-parser");
 const sanitize = require('sanitize');
 const express = require("express");
 const csurf = require("csurf");
-const path = require('path');
 const app = express();
 
 const ramAPI = require('./models/ramAPI');
