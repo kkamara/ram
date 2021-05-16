@@ -1,6 +1,6 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
-import $ from 'jquery'; 
+import $ from 'jquery';
 
 import { getURLParameter } from '../../utilities/methods';
 
@@ -25,7 +25,7 @@ const SimplePagination = ({ data }) => {
 
     let uriEncodedFilters = '';
     if (
-        data.filters &&
+        typeof data.filters !== 'undefined' &&
         typeof data.filters === "string" &&
         data.filters.length
     ) uriEncodedFilters += `&${data.filters}`;

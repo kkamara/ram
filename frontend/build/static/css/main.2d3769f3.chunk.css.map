@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack://src/index.css"],"names":[],"mappings":"AAEA,KACI,eAAgB,CAChB,kBACJ,CAEA,iBACI,UACJ","file":"main.2d3769f3.chunk.css","sourcesContent":["\n\n#app {\n    margin-top: 50px;\n    margin-bottom: 50px;\n}\n\n.character-title {\n    color: #000;\n}\n"]}

@@ -22,7 +22,6 @@
     "axios": "^0.21.1",
     "concurrently": "^6.0.0",
     "cookie-parser": "^1.4.4",
-    "csurf": "^1.11.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "sanitize": "^2.1.0"
