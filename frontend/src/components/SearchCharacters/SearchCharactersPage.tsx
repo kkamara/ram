@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from "react";
+import { RouteComponentProps } from "react-router";
 import { connect } from "react-redux";
 import { Helmet } from "react-helmet";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -12,7 +13,14 @@ import { getURLParameter } from '../../utilities/methods';
 import { APP_NAME } from "../../constants";
 import Loader from "../Loader";
 
-class SearchCharactersPage extends Component {
+type Props = RouteComponentProps & {
+	searchCharacters: (id: string, params: { [key: string]: any }) => {
+		[key: string]: any,
+	},
+	characters: { [key: string]: any },
+};
+
+class SearchCharactersPage extends Component<Props, {}> {
 	pageTitle = `Search | Form | ${APP_NAME}`;
 	state = {
 		"name": "",
