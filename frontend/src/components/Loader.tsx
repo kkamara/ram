@@ -6,7 +6,7 @@ const Loader = () => (
         <div className="sweet-loading text-center">
             <FadeLoader
                 // css={override}
-                sizeUnit={"px"}
+                // sizeUnit={"px"}
                 size={150}
                 color={"#123abc"}
                 loading={true}

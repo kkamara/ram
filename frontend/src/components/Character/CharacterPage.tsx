@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { RouteComponentProps } from "react-router";
 import { connect } from "react-redux";
 import { Helmet } from "react-helmet";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -11,7 +12,21 @@ import Loader from "../Loader";
 import { Redirect } from "react-router-dom";
 import { APP_NAME } from "../../constants";
 
-class CharacterPage extends Component {
+type State = {
+	pageTitle: string,
+};
+type Props = RouteComponentProps & {
+	getCharacter: (id: string) => { [key: string]: any },
+	characters: { [key: string]: any },
+	character: { [key: string]: any },
+	match: {
+		params: {
+			id: string,
+		},
+	},
+};
+
+class CharacterPage extends Component<Props, State> {
 	state = {
 		pageTitle: `Characters | ${APP_NAME}`,
 	}
@@ -43,7 +58,7 @@ class CharacterPage extends Component {
 	}
 
     loadCharacter() {
-		const { id } = this.props.match.params;
+		const id = this.props.match.params.id;
         this.props.getCharacter(id);
 	}
 

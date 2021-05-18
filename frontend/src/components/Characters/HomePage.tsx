@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { RouteComponentProps } from "react-router";
 import { connect } from "react-redux";
 import { Helmet } from "react-helmet";
 
@@ -10,7 +11,12 @@ import { getURLParameter } from '../../utilities/methods';
 import Loader from "../Loader";
 import { APP_NAME } from "../../constants";
 
-class HomePage extends Component {
+type Props = RouteComponentProps & {
+	getCharacters: (id: string) => { [key: string]: any },
+	characters: { [key: string]: any },
+};
+
+class HomePage extends Component<Props, {}> {
 	pageTitle = `Home | ${APP_NAME}`;
 
     componentDidMount() {
