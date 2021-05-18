@@ -1,5 +1,5 @@
-const API = require('./api');
-const axios = require('axios').default;
+import API from './api';
+import axios from 'axios';
 
 class RamAPI extends API {
     /**
@@ -64,14 +64,14 @@ class RamAPI extends API {
      * @return string
      */
     uriEncodeArray(fields) {
-        /** 
-         * Default return value 
-         * @var {string} result 
+        /**
+         * Default return value
+         * @var {string} result
          */
         let result = '';
-        /** 
-         * Maintain iteration count for given array 
-         * @var {int} count 
+        /**
+         * Maintain iteration count for given array
+         * @var {int} count
          */
         let count = 0;
         for (const name in fields) {
@@ -93,7 +93,7 @@ class RamAPI extends API {
      */
     validateSearchParams({ name, status, species, type, gender }) {
         const result = [];
-        
+
         if (name && 255 <= name.length) {
             result["name"] = "The name exceeds 255 character limit.";
         }
@@ -130,4 +130,4 @@ class RamAPI extends API {
     }
 }
 
-module.exports = new RamAPI();
+export default new RamAPI();

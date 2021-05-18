@@ -17,13 +17,11 @@ const helpersConfig = {
     },
     appName: process.env.APP_NAME,
     nodeEnv: process.env.NODE_ENV,
-    appDebug: process.env.APP_DEBUG,
+    appDebug: process.env.APP_DEBUG == 'true',
     appURL: process.env.APP_URL,
     appLocale: process.env.APP_LOCALE,
     appPort: process.env.PORT || process.env.port || 3000,
     ramURL: process.env.RAM_URL,
 };
 
-module.exports = {
-    helpersConfig
-};
+export default helpersConfig;

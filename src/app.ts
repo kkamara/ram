@@ -1,13 +1,13 @@
-const { helpersConfig } = require("./config");
+import helpersConfig from "./config";
 
-const cookieParser = require("cookie-parser");
-const sanitize = require('sanitize');
-const express = require("express");
+import cookieParser from "cookie-parser";
+import sanitize from 'sanitize';
+import express from "express";
 const app = express();
 
-const ramAPI = require('./models/ramAPI');
+import ramAPI from './models/ramAPI';
 
-const path = require('path');
+import path from 'path';
 
 /** serving react with static path */
 const buildPath = path.join(
@@ -29,27 +29,8 @@ app.use((req, res, next) => {
     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
     next();
 });
-if (helpersConfig.appDebug === true) {
-    /** Better stack traces for server errors */
-    app.use((req, res, next) => {
-        const render = res.render;
-        const send = res.send;
-        res.render = function renderWrapper(...args) {
-            Error.captureStackTrace(this);
-            return render.apply(this, args);
-        };
-        res.send = function sendWrapper(...args) {
-            try {
-                send.apply(this, args);
-            } catch (err) {
-                console.error(`Error in res.send | ${err.code} | ${err.message} | ${res.stack}`);
-            }
-        };
-        next();
-    });
-}
 
-router = express.Router();
+const router = express.Router();
 
 // /characters
 router.get('/characters', async (req, res) => {
@@ -77,7 +58,7 @@ router.get('/characters/search', async (req, res) => {
     const strFilters = ramAPI.uriEncodeArray(filters);
     const page = req.query.page !== undefined ? req.query.page : 1;
     await ramAPI.search(strFilters, page)
-        .then(payload => {
+        .then((payload: { data: { [key: string]: any } }) => {
             res.statusCode = 200;
             res.send(JSON.stringify({ data: payload.data }))
         })

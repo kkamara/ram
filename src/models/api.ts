@@ -1,5 +1,5 @@
-const { helpersConfig } = require("../config");
-const axios = require('axios').default;
+import helpersConfig from "../config";
+import axios from 'axios';
 
 class API {
     /** API endpoint base url @var url */
@@ -20,4 +20,4 @@ class API {
     }
 }
 
-module.exports = API;
+export default API;
