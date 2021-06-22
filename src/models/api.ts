@@ -2,11 +2,11 @@ import helpersConfig from "../config";
 import axios from 'axios';
 
 class API {
-    /** API endpoint base url @var url */
-    url = '';
+    /** API endpoint base url @prop url */
+    protected url = '';
 
-    /** HTTP lib for network requests @var http */
-    http = '';
+    /** HTTP lib for network requests @prop http */
+    protected http = '';
 
     /**
      * Base class constructor
