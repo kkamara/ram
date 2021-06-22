@@ -45,7 +45,7 @@ router.get('/characters', async (req, res) => {
             res.send(JSON.stringify(false))
         });
 });
-// res.status(201).json
+
 // /characters/search
 router.get('/characters/search', async (req, res) => {
     const filterOptions = ['name', 'status', 'species', 'type', 'gender'];
@@ -89,35 +89,15 @@ router.get('/characters/:id(\\d+)', async (req, res) => {
 
 app.use('/api/v1', router);
 
-// Serving react
-app.get('/status', function(req, res) {
-    res.sendFile(path.join(buildPath, 'index.html'), err => {
-      if (err) {
-        res.status(500).send(err)
-      }
-    });
-});
-app.get('/characters/:id', function(req, res) {
-    res.sendFile(path.join(buildPath, 'index.html'), err => {
-      if (err) {
-        res.status(500).send(err)
-      }
-    });
-});
-app.get('/search', function(req, res) {
-    res.sendFile(path.join(buildPath, 'index.html'), err => {
-      if (err) {
-        res.status(500).send(err)
-      }
-    });
-});
-app.get('/404', function(req, res) {
-    res.sendFile(path.join(buildPath, 'index.html'), err => {
-      if (err) {
-        res.status(500).send(err)
-      }
-    });
-});
+/** Serving react with static path */
+const reactRoutesPath = path.join(
+    buildPath,
+    'index.html'
+);
+app.use('/status', express.static(reactRoutesPath));
+app.use('/characters/:id', express.static(reactRoutesPath));
+app.use('/search', express.static(reactRoutesPath));
+app.get('/404', express.static(reactRoutesPath));
 
 if (helpersConfig.nodeEnv === "production") {
     app.listen(helpersConfig.appPort);
