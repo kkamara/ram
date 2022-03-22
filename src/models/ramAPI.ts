@@ -15,7 +15,7 @@ class RamAPI extends API {
     /**
      * Return a single character api response
      * @param  {number} id
-     * @return string|boolean
+     * @return {string|boolean}
      */
     getCharacter(id) {
         /** @var {string} endpoint */
