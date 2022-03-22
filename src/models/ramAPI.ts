@@ -8,7 +8,7 @@ class RamAPI extends API {
      * @param {any=} http - Optional http to override default assignment
      * @return void
      */
-    constructor(url='', http=null) {
+    constructor(url=null, http=null) {
         super(url, http);
     }
 
@@ -19,7 +19,7 @@ class RamAPI extends API {
      */
     getCharacter(id) {
         /** @var {string} endpoint */
-        const endpoint = `${this.url}/character/${id}`;
+        const endpoint = `${this._url}/character/${id}`;
         return axios.get(endpoint);
     }
 
@@ -34,7 +34,7 @@ class RamAPI extends API {
             : 1;
 
         /** @var {string} endpoint */
-        let endpoint = `${this.url}/character`;
+        let endpoint = `${this._url}/character`;
         if (page) endpoint += `/?page=${page}`;
 
         return axios.get(endpoint);
@@ -54,7 +54,7 @@ class RamAPI extends API {
             : 1;
 
         /** @var {string} endpoint */
-        const endpoint = `${this.url}/character/?page=${page}&${uriEncodedFilters}`;
+        const endpoint = `${this._url}/character/?page=${page}&${uriEncodedFilters}`;
         return axios.get(endpoint);
     }
 

@@ -3,10 +3,10 @@ import axios from 'axios';
 
 class API {
     /** API endpoint base url @prop url */
-    protected url = '';
+    _url = '';
 
     /** HTTP lib for network requests @prop http */
-    protected http = '';
+    _http = '';
 
     /**
      * Base class constructor
@@ -14,9 +14,9 @@ class API {
      * @param {any=} http - Optional http to override default assignment
      * @return void
      */
-    constructor(url='', http=null) {
-        this.url  = url.length ? url : helpersConfig.ramURL;
-        this.http = null !== http ? http : axios;
+    constructor(url=null, http=null) {
+        this._url  = null !== url ? url : helpersConfig.ramAPI;
+        this._http = null !== http ? http : axios;
     }
 }
 
