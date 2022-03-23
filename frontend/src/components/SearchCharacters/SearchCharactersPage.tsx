@@ -1,37 +1,37 @@
-import React, { Component, Fragment } from "react";
-import { RouteComponentProps } from "react-router";
-import { connect } from "react-redux";
-import { Helmet } from "react-helmet";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBackspace } from '@fortawesome/free-solid-svg-icons';
+import React, { Component, Fragment } from "react"
+import { RouteComponentProps } from "react-router"
+import { connect } from "react-redux"
+import { Helmet } from "react-helmet"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faBackspace } from '@fortawesome/free-solid-svg-icons'
 
-import { searchCharactersActions } from "../../redux/actions/index";
-import SimplePagination from "../Pagination/SimplePagination";
-import Character from '../Character/Character';
+import { searchCharactersActions } from "../../redux/actions/index"
+import SimplePagination from "../Pagination/SimplePagination"
+import Character from '../Character/Character'
 
-import { getURLParameter } from '../../utilities/methods';
-import { APP_NAME } from "../../constants";
-import Loader from "../Loader";
+import { getURLParameter } from '../../utilities/methods'
+import { APP_NAME } from "../../constants"
+import Loader from "../Loader"
 
 type Props = RouteComponentProps & {
 	searchCharacters: (id: string, params: { [key: string]: any }) => {
 		[key: string]: any,
 	},
 	characters: { [key: string]: any },
-};
+}
 
 class SearchCharactersPage extends Component<Props, {}> {
-	pageTitle = `Search | Form | ${APP_NAME}`;
+	pageTitle = `Search | Form | ${APP_NAME}`
 	state = {
 		"name": "",
 		"status": "",
 		"species": "",
 		"type": "",
 		"gender": "",
-	};
+	}
 
     componentDidMount() {
-		this.handleInitialSearch();
+		this.handleInitialSearch()
 	}
 
 	handleInitialSearch() {
@@ -42,59 +42,59 @@ class SearchCharactersPage extends Component<Props, {}> {
 			type: getURLParameter("type"),
 			gender: getURLParameter("gender"),
 		}
-		if (!params.name) delete params.name;
-		else this.setNameState(params.name);
-		if (!params.status) delete params.status;
-		else this.setStatusState(params.status);
-		if (!params.species) delete params.species;
-		else this.setSpeciesState(params.species);
-		if (!params.type) delete params.type;
-		else this.setTypeState(params.type);
-		if (!params.gender) delete params.gender;
-		else this.setGenderState(params.gender);
+		if (!params.name) delete params.name
+		else this.setNameState(params.name)
+		if (!params.status) delete params.status
+		else this.setStatusState(params.status)
+		if (!params.species) delete params.species
+		else this.setSpeciesState(params.species)
+		if (!params.type) delete params.type
+		else this.setTypeState(params.type)
+		if (!params.gender) delete params.gender
+		else this.setGenderState(params.gender)
 
-		const page = this.getPageURI();
-        this.searchCharacters(page, params);
+		const page = this.getPageURI()
+        this.searchCharacters(page, params)
 	}
 
 	setNameState(name) {
-		this.setState({ name });
+		this.setState({ name })
 	}
 
 	setStatusState(status) {
-		this.setState({ status });
+		this.setState({ status })
 	}
 
 	setSpeciesState(Species) {
-		this.setState({ Species });
+		this.setState({ Species })
 	}
 
 	setTypeState(type) {
-		this.setState({ type });
+		this.setState({ type })
 	}
 
 	setGenderState(gender) {
-		this.setState({ gender });
+		this.setState({ gender })
 	}
 
 	getPageURI() {
-		let result = 1;
-		const pageURIParam = getURLParameter('page');
+		let result = 1
+		const pageURIParam = getURLParameter('page')
 		if (pageURIParam) {
 			try {
-				result = Number.parseInt(pageURIParam);
+				result = Number.parseInt(pageURIParam)
 			} catch (e) {}
 		}
-		return result;
+		return result
 	}
 
     searchCharacters(page, params={}) {
-        this.props.searchCharacters(page, params);
+        this.props.searchCharacters(page, params)
 	}
 
 	handleFieldChange(e) {
-		const { name, value } = e.target;
-		this.setState({ [name]: value });
+		const { name, value } = e.target
+		this.setState({ [name]: value })
 	}
 
 	__renderHeaderTags() {
@@ -104,22 +104,22 @@ class SearchCharactersPage extends Component<Props, {}> {
 	}
 
 	__renderErrors() {
-		const { data } = this.props.characters;
+		const { data } = this.props.characters
 
-		if (!data.errors) return null;
+		if (!data.errors) return null
 
 		return (
 			<div className="alert alert-danger alert-dismissible fade show" role="alert">
 				{data.errors.map((error, key) => <Fragment key={key}>{ error } <br/></Fragment>)}
 				<button type="button" className="close" data-dismiss="alert" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
+					<span aria-hidden="true">&times</span>
 				</button>
 			</div>
-		);
+		)
 	}
 
 	__renderCharacters() {
-		const { data } = this.props.characters;
+		const { data } = this.props.characters
 
 		if (
 			!data ||
@@ -129,7 +129,7 @@ class SearchCharactersPage extends Component<Props, {}> {
 			) ||
 			!data.results.length
 		) {
-			return <p>No results to display your query.</p>;
+			return <p>No results to display your query.</p>
 		}
 
 		return data.results.map((character, key) =>
@@ -138,19 +138,19 @@ class SearchCharactersPage extends Component<Props, {}> {
 				character={character}
 				showShortData
 			/>
-		);
+		)
 	}
 
     render() {
-		const { data, fetched, isLoaded } = this.props.characters;
+		const { data, fetched, isLoaded } = this.props.characters
 		const {
 			name,
 			status,
 			species,
 			type,
 			gender,
-		} = this.state;
-		let content = null;
+		} = this.state
+		let content = null
 
 		if (fetched && isLoaded) {
         	content = (
@@ -264,25 +264,25 @@ class SearchCharactersPage extends Component<Props, {}> {
 						</div>
 					</div>
 				</div>
-			);
+			)
         } else if (!fetched && isLoaded) {
-	        content = <div>Unknown error encountered</div>;
+	        content = <div>Unknown error encountered</div>
     	} else{
-    		content = <Loader />;
+    		content = <Loader />
     	}
 
 		return <>
 			{this.__renderHeaderTags()}
 			{content}
-		</>;
+		</>
     }
 }
 
 const mapStateToProps = state => ({
     characters: state.searchCharacters
-});
+})
 const mapDispatchToProps = dispatch => ({
     searchCharacters: (page, params) => dispatch(searchCharactersActions.searchCharacters(page, params)),
-});
+})
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchCharactersPage);
+export default connect(mapStateToProps, mapDispatchToProps)(SearchCharactersPage)

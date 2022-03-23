@@ -1,14 +1,14 @@
-import { BrowserRouter, Switch, Redirect, Route } from "react-router-dom";
-import React, { Fragment } from "react";
+import { BrowserRouter, Switch, Redirect, Route } from "react-router-dom"
+import React, { Fragment } from "react"
 
-import SearchCharactersPage from "./components/SearchCharacters/SearchCharactersPage";
-import CharacterPage from "./components/Character/CharacterPage";
-import HomePage from "./components/Characters/HomePage";
-import Page404 from "./components/Page404";
-import Footer from "./components/Footer";
+import SearchCharactersPage from "./components/SearchCharacters/SearchCharactersPage"
+import CharacterPage from "./components/Character/CharacterPage"
+import HomePage from "./components/Characters/HomePage"
+import Page404 from "./components/Page404"
+import Footer from "./components/Footer"
 
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './index.css';
+import 'bootstrap/dist/css/bootstrap.min.css'
+import './index.css'
 
 const App = () => (
     <div id='app'>
@@ -25,6 +25,6 @@ const App = () => (
             </Fragment>
         </BrowserRouter>
     </div>
-);
+)
 
-export default App;
+export default App

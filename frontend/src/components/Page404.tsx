@@ -1,20 +1,20 @@
-import React from "react";
-import { GIPHY_API_KEY } from "../constants";
-import Loader from "./Loader";
+import React from "react"
+import { GIPHY_API_KEY } from "../constants"
+import Loader from "./Loader"
 
 class Page404 extends React.Component {
     state = {
         giphyImageUrl: null
-    };
+    }
 
     async componentDidMount() {
-        let giphyImageUrl = await this.getGiphyImage();
+        let giphyImageUrl = await this.getGiphyImage()
 
-        this.setGiphyImage(giphyImageUrl);
+        this.setGiphyImage(giphyImageUrl)
     }
 
     setGiphyImage(giphyImageUrl) {
-        this.setState({ giphyImageUrl });
+        this.setState({ giphyImageUrl })
     }
 
     getGiphyImage = async () => {
@@ -23,21 +23,21 @@ class Page404 extends React.Component {
         )
             .then(res => res.json())
             .then(res => {
-                return res.data.image_original_url;
+                return res.data.image_original_url
             })
             .catch(err => {
-                return false;
-            });
+                return false
+            })
 
-        return imageUrl;
-    };
+        return imageUrl
+    }
 
     render() {
-        const { container } = styles;
-        const { giphyImageUrl } = this.state;
+        const { container } = styles
+        const { giphyImageUrl } = this.state
 
         if (giphyImageUrl === null) {
-            return <Loader />;
+            return <Loader />
         } else {
             return (
                 <div className="container" style={container}>
@@ -51,7 +51,7 @@ class Page404 extends React.Component {
                         )}
                     </div>
                 </div>
-            );
+            )
         }
     }
 }
@@ -60,6 +60,6 @@ const styles = {
     container: {
         marginTop: 100
     }
-};
+}
 
-export default Page404;
+export default Page404

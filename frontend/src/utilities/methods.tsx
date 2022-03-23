@@ -1,17 +1,17 @@
 
 export const convertArrayToGETParams = params => {
-    let data = [];
+    let data = []
     for (let key in params) {
         if (params[key].length > 0) {
-            data.push(`${key}=${params[key]}`);
+            data.push(`${key}=${params[key]}`)
         }
     }
-    return data.join("&");
-};
+    return data.join("&")
+}
 
 export const getURLParameter = name =>
     decodeURIComponent(
-        (new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)')
+        (new RegExp('[?|&]' + name + '=' + '([^&]+?)(&|#||$)')
             .exec(window.location.search) || [null, ''])[1]
             .replace(/\+/g, '%20')
-    ) || null;
+    ) || null

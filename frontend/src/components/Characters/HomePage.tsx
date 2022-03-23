@@ -1,31 +1,31 @@
-import React, { Component } from "react";
-import { RouteComponentProps } from "react-router";
-import { connect } from "react-redux";
-import { Helmet } from "react-helmet";
+import React, { Component } from "react"
+import { RouteComponentProps } from "react-router"
+import { connect } from "react-redux"
+import { Helmet } from "react-helmet"
 
-import { charactersActions } from "../../redux/actions/index";
-import SimplePagination from "../Pagination/SimplePagination";
-import Character from '../Character/Character';
+import { charactersActions } from "../../redux/actions/index"
+import SimplePagination from "../Pagination/SimplePagination"
+import Character from '../Character/Character'
 
-import { getURLParameter } from '../../utilities/methods';
-import Loader from "../Loader";
-import { APP_NAME } from "../../constants";
+import { getURLParameter } from '../../utilities/methods'
+import Loader from "../Loader"
+import { APP_NAME } from "../../constants"
 
 type Props = RouteComponentProps & {
 	getCharacters: (id: string) => { [key: string]: any },
 	characters: { [key: string]: any },
-};
+}
 
 class HomePage extends Component<Props, {}> {
-	pageTitle = `Home | ${APP_NAME}`;
+	pageTitle = `Home | ${APP_NAME}`
 
     componentDidMount() {
-		const page = getURLParameter('page') ? Number.parseInt(getURLParameter('page')) : 1;
-        this.loadCharacters(page);
+		const page = getURLParameter('page') ? Number.parseInt(getURLParameter('page')) : 1
+        this.loadCharacters(page)
     }
 
     loadCharacters(page) {
-        this.props.getCharacters(page);
+        this.props.getCharacters(page)
 	}
 
 	__renderHeaderTags() {
@@ -35,7 +35,7 @@ class HomePage extends Component<Props, {}> {
 	}
 
 	__renderCharacters() {
-		const { data } = this.props.characters;
+		const { data } = this.props.characters
 
 		if (
 			!data ||
@@ -45,7 +45,7 @@ class HomePage extends Component<Props, {}> {
 			) ||
 			!data.results.length
 		) {
-			return <p>No results to display your query.</p>;
+			return <p>No results to display your query.</p>
 		}
 
 		return data.results.map((character, key) =>
@@ -54,12 +54,12 @@ class HomePage extends Component<Props, {}> {
 				character={character}
 				showShortData
 			/>
-		);
+		)
 	}
 
     render() {
-		const { data, fetched, isLoaded } = this.props.characters;
-		let content = null;
+		const { data, fetched, isLoaded } = this.props.characters
+		let content = null
 
         if (fetched && isLoaded) {
         	content = (
@@ -85,25 +85,25 @@ class HomePage extends Component<Props, {}> {
 						</div>
 					</div>
 				</div>
-			);
+			)
         } else if (!fetched && isLoaded) {
-	        content = <div>Unknown error encountered</div>;
+	        content = <div>Unknown error encountered</div>
     	} else {
-    		content = <Loader />;
+    		content = <Loader />
 		}
 
 		return <>
 			{this.__renderHeaderTags()}
 			{content}
-		</>;
+		</>
     }
 }
 
 const mapStateToProps = state => ({
     characters: state.characters
-});
+})
 const mapDispatchToProps = dispatch => ({
     getCharacters: page => dispatch(charactersActions.getCharacters(page)),
-});
+})
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomePage);
+export default connect(mapStateToProps, mapDispatchToProps)(HomePage)

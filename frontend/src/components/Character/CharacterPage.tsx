@@ -1,20 +1,20 @@
-import React, { Component } from "react";
-import { RouteComponentProps } from "react-router";
-import { connect } from "react-redux";
-import { Helmet } from "react-helmet";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBackspace, } from '@fortawesome/free-solid-svg-icons';
+import React, { Component } from "react"
+import { RouteComponentProps } from "react-router"
+import { connect } from "react-redux"
+import { Helmet } from "react-helmet"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faBackspace, } from '@fortawesome/free-solid-svg-icons'
 
-import { characterActions } from "../../redux/actions/index";
-import Character from './Character';
+import { characterActions } from "../../redux/actions/index"
+import Character from './Character'
 
-import Loader from "../Loader";
-import { Redirect } from "react-router-dom";
-import { APP_NAME } from "../../constants";
+import Loader from "../Loader"
+import { Redirect } from "react-router-dom"
+import { APP_NAME } from "../../constants"
 
 type State = {
 	pageTitle: string,
-};
+}
 type Props = RouteComponentProps & {
 	getCharacter: (id: string) => { [key: string]: any },
 	characters: { [key: string]: any },
@@ -24,7 +24,7 @@ type Props = RouteComponentProps & {
 			id: string,
 		},
 	},
-};
+}
 
 class CharacterPage extends Component<Props, State> {
 	state = {
@@ -32,44 +32,44 @@ class CharacterPage extends Component<Props, State> {
 	}
 
     componentDidMount() {
-        this.loadCharacter();
+        this.loadCharacter()
 	}
 
 	componentDidUpdate() {
-		const { data, fetched, isLoaded } = this.props.character;
-		const { pageTitle } = this.state;
+		const { data, fetched, isLoaded } = this.props.character
+		const { pageTitle } = this.state
 
 		if (
 			!fetched ||
 			!isLoaded ||
 			pageTitle.match(data.name)
-		) return;
+		) return
 
-		this.setPageTitleState(`${data.name} | ${pageTitle}`);
+		this.setPageTitleState(`${data.name} | ${pageTitle}`)
 	}
 
-	setPageTitleState = pageTitle => this.setState({ pageTitle });
+	setPageTitleState = pageTitle => this.setState({ pageTitle })
 
 	__renderHeaderTags() {
-		const { pageTitle } = this.state;
+		const { pageTitle } = this.state
 		return <Helmet>
 			<title>{pageTitle}</title>
 		</Helmet>
 	}
 
     loadCharacter() {
-		const id = this.props.match.params.id;
-        this.props.getCharacter(id);
+		const id = this.props.match.params.id
+        this.props.getCharacter(id)
 	}
 
 	__renderCharacter() {
-		const { data } = this.props.character;
-		return <Character character={data} />;
+		const { data } = this.props.character
+		return <Character character={data} />
 	}
 
     render() {
-		const { data, fetched, isLoaded } = this.props.character;
-		let content = null;
+		const { data, fetched, isLoaded } = this.props.character
+		let content = null
 
         if (fetched && isLoaded) {
 			if (!data) return <Redirect to="/404" />
@@ -97,25 +97,25 @@ class CharacterPage extends Component<Props, State> {
 		                </div>
 		            </div>
 		        </div>
-        	</div>;
+        	</div>
         } else if (!fetched && isLoaded) {
-	        content = <div>Unknown error encountered</div>;
+	        content = <div>Unknown error encountered</div>
     	} else{
-    		content = <Loader />;
+    		content = <Loader />
 		}
 
 		return <>
 			{this.__renderHeaderTags()}
 			{content}
-		</>;
+		</>
     }
 }
 
 const mapStateToProps = state => ({
     character: state.character
-});
+})
 const mapDispatchToProps = dispatch => ({
     getCharacter: id => dispatch(characterActions.getCharacter(id)),
-});
+})
 
-export default connect(mapStateToProps, mapDispatchToProps)(CharacterPage);
+export default connect(mapStateToProps, mapDispatchToProps)(CharacterPage)

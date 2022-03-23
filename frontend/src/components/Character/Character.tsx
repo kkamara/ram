@@ -1,15 +1,15 @@
-import React, { Fragment } from "react";
-import { withRouter } from "react-router-dom";
+import React, { Fragment } from "react"
+import { withRouter } from "react-router-dom"
 
 const renderEpisodes = episodes => {
-    if (!episodes.length) return 'N/A';
+    if (!episodes.length) return 'N/A'
 
     return episodes.map((ep, key) => {
-        let result = ep.slice(1 + ep.lastIndexOf('/'));
-        if (key !== episodes.length - 1) result += ', ';
+        let result = ep.slice(1 + ep.lastIndexOf('/'))
+        if (key !== episodes.length - 1) result += ', '
 
-        return <Fragment key={key}>{result}</Fragment>;
-    });
+        return <Fragment key={key}>{result}</Fragment>
+    })
 }
 
 const Character = ({ character, showShortData }) => {
@@ -21,7 +21,7 @@ const Character = ({ character, showShortData }) => {
         species,
         gender,
         episode,
-     } = character;
+     } = character
 
     const renderCharacter = () => {
         let result = [
@@ -33,7 +33,7 @@ const Character = ({ character, showShortData }) => {
                         `Name: ${name}`}
                 </p>
             </>
-        ];
+        ]
         if (!showShortData) {
             result.push(
                 <>
@@ -42,13 +42,13 @@ const Character = ({ character, showShortData }) => {
                     <p>Gender: {gender}</p>
                     <p>Episodes: {renderEpisodes(episode)}</p>
                 </>
-            );
+            )
         }
 
-        return result.map((data, key) => <Fragment key={key}>{data}</Fragment>);
+        return result.map((data, key) => <Fragment key={key}>{data}</Fragment>)
     }
 
-    return renderCharacter();
+    return renderCharacter()
 }
 
-export default withRouter(Character);
+export default withRouter(Character)

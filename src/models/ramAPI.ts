@@ -1,5 +1,5 @@
-import API from './api';
-import axios from 'axios';
+import API from './api'
+import axios from 'axios'
 
 class RamAPI extends API {
     /**
@@ -9,7 +9,7 @@ class RamAPI extends API {
      * @return void
      */
     constructor(url=null, http=null) {
-        super(url, http);
+        super(url, http)
     }
 
     /**
@@ -19,8 +19,8 @@ class RamAPI extends API {
      */
     getCharacter(id) {
         /** @var {string} endpoint */
-        const endpoint = `${this._url}/character/${id}`;
-        return axios.get(endpoint);
+        const endpoint = `${this._url}/character/${id}`
+        return axios.get(endpoint)
     }
 
     /**
@@ -31,13 +31,13 @@ class RamAPI extends API {
     getChars(page=null) {
         page = null !== page && null !== `${page}`.match(/^\d+$/)
             ? Number.parseInt(page)
-            : 1;
+            : 1
 
         /** @var {string} endpoint */
-        let endpoint = `${this._url}/character`;
-        if (page) endpoint += `/?page=${page}`;
+        let endpoint = `${this._url}/character`
+        if (page) endpoint += `/?page=${page}`
 
-        return axios.get(endpoint);
+        return axios.get(endpoint)
     }
 
     /**
@@ -47,15 +47,15 @@ class RamAPI extends API {
      * @return string|boolean
      */
     search(uriEncodedFilters, page) {
-        if (1 > uriEncodedFilters.length) return new Promise(resolve => resolve(false));
+        if (1 > uriEncodedFilters.length) return new Promise(resolve => resolve(false))
 
         page = null !== page && null !== `${page}`.match(/^\d+$/)
             ? Number.parseInt(page)
-            : 1;
+            : 1
 
         /** @var {string} endpoint */
-        const endpoint = `${this._url}/character/?page=${page}&${uriEncodedFilters}`;
-        return axios.get(endpoint);
+        const endpoint = `${this._url}/character/?page=${page}&${uriEncodedFilters}`
+        return axios.get(endpoint)
     }
 
     /**
@@ -68,22 +68,22 @@ class RamAPI extends API {
          * Default return value
          * @var {string} result
          */
-        let result = '';
+        let result = ''
         /**
          * Maintain iteration count for given array
          * @var {int} count
          */
-        let count = 0;
+        let count = 0
         for (const name in fields) {
-            const value = fields[name];
-            if(null === value) continue;
+            const value = fields[name]
+            if(null === value) continue
             result += count === 0
                 ? `${name}=${value}`
-                : `&${name}=${value}`;
-            ++count;
+                : `&${name}=${value}`
+            ++count
         }
 
-        return result;
+        return result
     }
 
     /**
@@ -92,42 +92,42 @@ class RamAPI extends API {
      * @return array|false
      */
     validateSearchParams({ name, status, species, type, gender }) {
-        const result = [];
+        const result = []
 
         if (name && 255 <= name.length) {
-            result["name"] = "The name exceeds 255 character limit.";
+            result["name"] = "The name exceeds 255 character limit."
         }
 
         /** @var {array} statuses */
-        const statuses = ['alive', 'dead', 'unknown'];
+        const statuses = ['alive', 'dead', 'unknown']
         if (status) {
             if (255 <= status.length) {
-                result["status"] = "The status exceeds 255 character limit.";
+                result["status"] = "The status exceeds 255 character limit."
             } else if (!status.includes(statuses)) {
-                result["status"] = `The status must be one of ${statuses.join(', ')}.`;
+                result["status"] = `The status must be one of ${statuses.join(', ')}.`
             }
         }
 
         if (species && 255 <= species.length) {
-            result["species"] = "The species exceeds 255 character limit.";
+            result["species"] = "The species exceeds 255 character limit."
         }
 
         if (type && 255 <= type.length) {
-            result["type"] = "The type exceeds 255 character limit.";
+            result["type"] = "The type exceeds 255 character limit."
         }
 
         /** @var {array} genderOptions */
-        const genderOptions = ['female', 'male', 'genderless', 'unknown'];
+        const genderOptions = ['female', 'male', 'genderless', 'unknown']
         if (gender) {
             if (255 <= gender.length) {
-                result["gender"] = "The gender exceeds 255 character limit.";
+                result["gender"] = "The gender exceeds 255 character limit."
             } else if (!gender.includes(genderOptions)) {
-                result["gender"] = `The gender must be one of ${genderOptions.join(', ')}.`;
+                result["gender"] = `The gender must be one of ${genderOptions.join(', ')}.`
             }
         }
 
-        return result.length ? result : false;
+        return result.length ? result : false
     }
 }
 
-export default new RamAPI();
+export default new RamAPI()

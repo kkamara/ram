@@ -1,5 +1,5 @@
-import React from "react";
-import FadeLoader from "react-spinners/ClipLoader";
+import React from "react"
+import FadeLoader from "react-spinners/ClipLoader"
 
 const Loader = () => (
     <div>
@@ -13,6 +13,6 @@ const Loader = () => (
             />
         </div>
     </div>
-);
+)
 
-export default Loader;
+export default Loader
