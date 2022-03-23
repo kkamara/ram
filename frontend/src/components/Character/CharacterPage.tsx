@@ -3,7 +3,7 @@ import { RouteComponentProps } from "react-router";
 import { connect } from "react-redux";
 import { Helmet } from "react-helmet";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBackspace } from '@fortawesome/free-solid-svg-icons';
+import { faBackspace, } from '@fortawesome/free-solid-svg-icons';
 
 import { characterActions } from "../../redux/actions/index";
 import Character from './Character';
@@ -91,9 +91,9 @@ class CharacterPage extends Component<Props, State> {
 		                    </div>
 		                </div>
 		                <div className="card-footer">
-							<a href="/" className="btn btn-default">
-								<FontAwesomeIcon icon={faBackspace} />
-							</a>
+											<a href="/" className="btn btn-default">
+												<FontAwesomeIcon icon={faBackspace} />
+											</a>
 		                </div>
 		            </div>
 		        </div>
