@@ -5,7 +5,7 @@ const Footer = () => (
     <footer className="footer" style={styles.footer}>
         <div className="container text-center">
             <span className="text-muted">
-                {APP_NAME} &copy 2020 &nbsp
+                {APP_NAME} &copy; 2020 &nbsp;
                 <a target="_blank" href="https://github.com/kkamara/ram">
                     Github
                 </a>
