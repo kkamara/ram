@@ -6,8 +6,8 @@ const Footer = () => (
         <div className="container text-center">
             <span className="text-muted">
                 {APP_NAME} &copy 2020 &nbsp
-                <a target="_blank" href="https://github.com/kkamara">
-                    Kelvin Kamara
+                <a target="_blank" href="https://github.com/kkamara/ram">
+                    Github
                 </a>
             </span>
         </div>
