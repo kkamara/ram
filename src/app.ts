@@ -97,7 +97,7 @@ const reactRoutesPath = path.join(
 app.use('/status', express.static(reactRoutesPath))
 app.use('/characters/:id', express.static(reactRoutesPath))
 app.use('/search', express.static(reactRoutesPath))
-app.get('/404', express.static(reactRoutesPath))
+app.use('/404', express.static(reactRoutesPath))
 
 if (helpersConfig.nodeEnv === "production") {
     app.listen(helpersConfig.appPort)
