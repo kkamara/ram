@@ -1,3 +1,5 @@
+<img src="https://github.com/kkamara/useful/raw/main/ram.png" alt="ram.png"/>
+
 # R A M
 
 Rick and Morty encyclopedia app that allows users to browse characters from the show - built with React & NodeJS. 
