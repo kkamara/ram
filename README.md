@@ -2,7 +2,7 @@
 
 # R A M
 
-Rick and Morty encyclopedia app that allows users to browse characters from the show - built with React & NodeJS. 
+(2020) Rick and Morty encyclopedia app that allows users to browse and search characters from the show - built with ReactJS and TypeScript NodeJS.
 
 ## Installation
 
